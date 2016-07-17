@@ -165,6 +165,11 @@ public class ConnectActivity extends AppCompatActivity implements LoaderCallback
 
 
     @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 
     }
