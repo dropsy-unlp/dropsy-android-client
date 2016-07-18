@@ -3,32 +3,31 @@ package com.fuentesfernandez.dropsy;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import org.glassfish.tyrus.client.ClientManager;
+
+import java.io.IOException;
+import java.net.URI;
+
+import javax.websocket.ClientEndpointConfig;
+import javax.websocket.DeploymentException;
+import javax.websocket.Endpoint;
+import javax.websocket.EndpointConfig;
+import javax.websocket.MessageHandler;
+import javax.websocket.Session;
 
 /**
  * A connect screen that offers connection via host/port/path.
@@ -180,7 +179,6 @@ public class ConnectActivity extends AppCompatActivity implements LoaderCallback
     }
 
 
-
     /**
      * Represents an asynchronous connection task used to connect to the server.
      */
@@ -194,7 +192,30 @@ public class ConnectActivity extends AppCompatActivity implements LoaderCallback
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            try {
+                final ClientManager client = ClientManager.createClient();
+                client.connectToServer(new Endpoint() {
+                    @Override
+                    public void onOpen(Session session, EndpointConfig EndpointConfig) {
 
+                        try {
+                            session.addMessageHandler(new MessageHandler.Whole<String>() {
+                                @Override
+                                public void onMessage(String message) {
+                                    Log.i("TYRUS-TEST", "### 3 Tyrus Client onMessage: " + message);
+                                }
+                            });
+
+                            Log.i("TYRUS-TEST", "### 2 Tyrus Client onOpen");
+                            session.getBasicRemote().sendText("Do or do not, there is no try.");
+                        } catch (IOException e) {
+                            // do nothing
+                        }
+                    }
+                }, ClientEndpointConfig.Builder.create().build(), URI.create(url));
+            } catch (DeploymentException | IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
