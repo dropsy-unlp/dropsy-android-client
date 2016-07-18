@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fuentesfernandez.dropsy" >
+    package="com.fuentesfernandez.dropsy">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -12,23 +12,26 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat" >
+        android:theme="@style/BlocklyTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:label="@string/app_name"
-
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ConnectActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_connect" >
-
-        </activity>
+            android:name=".Activity.ConnectActivity"
+            android:label="@string/title_activity_connect"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".Activity.ProjectActivity"
+            android:label="@string/title_activity_project"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            ></activity>
     </application>
 
 </manifest>

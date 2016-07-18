@@ -1,4 +1,4 @@
-package com.fuentesfernandez.dropsy;
+package com.fuentesfernandez.dropsy.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.fuentesfernandez.dropsy.R;
 
 import org.glassfish.tyrus.client.ClientManager;
 

@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('blocklylib-vertical-release.aar'))
