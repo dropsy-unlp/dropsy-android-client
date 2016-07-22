@@ -29,6 +29,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_project">ProjectActivity</string>
+    <string name="title_activity_project">Editar Proyecto</string>
+    <string name="load_project">Cargar Proyecto</string>
 
 </resources>

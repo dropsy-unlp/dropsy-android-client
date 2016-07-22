@@ -1,0 +1,71 @@
+[
+  {
+    "type": "movement_turn",
+    "message0": "Turn %1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "direction",
+        "options": [
+          [
+            "Left",
+            "left"
+          ],
+          [
+            "Right",
+            "right"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "direction",
+        "check": "String"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 290,
+    "tooltip": "",
+    "helpUrl": "http://www.example.com/"
+  },
+
+  {
+    "type": "movement_move",
+    "message0": "Move %1 for %2 seconds %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "direction",
+        "options": [
+          [
+            "Forward",
+            "forward"
+          ],
+          [
+            "Backward",
+            "backward"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "time",
+        "value": 0,
+        "precision": 1
+      },
+      {
+        "type": "input_value",
+        "name": "direction",
+        "check": "String"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 290,
+    "tooltip": "",
+    "helpUrl": "http://www.example.com/"
+  }
+]

@@ -17,9 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.fuentesfernandez.dropsy.Fragment.SavedProjectsFragment;
 import com.fuentesfernandez.dropsy.Fragment.ServerInfoFragment;
-import com.fuentesfernandez.dropsy.Fragment.dummy.DummyContent;
 import com.fuentesfernandez.dropsy.R;
 import com.wangjie.androidbucket.utils.ABTextUtil;
 import com.wangjie.androidbucket.utils.imageprocess.ABShape;
@@ -35,7 +33,7 @@ import java.util.List;
 
 @AILayout(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,RapidFloatingActionContentLabelList.OnRapidFloatingActionContentLabelListListener,SavedProjectsFragment.OnListFragmentInteractionListener, ServerInfoFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,RapidFloatingActionContentLabelList.OnRapidFloatingActionContentLabelListListener, ServerInfoFragment.OnFragmentInteractionListener {
 
     private RapidFloatingActionLayout rfaLayout;
     private RapidFloatingActionButton rfaBtn;
@@ -93,26 +91,23 @@ public class MainActivity extends AppCompatActivity
                 rfaContent
         ).build();
 
-        Fragment fragment = new ServerInfoFragment();
+        Fragment fragment;
+        fragment = new ServerInfoFragment();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
     @Override
     public void onRFACItemLabelClick(int position, RFACLabelItem item) {
+        Intent i;
         switch ((Integer)item.getWrapper()){
             case 0:
-                try {
-                    Fragment fragment = new SavedProjectsFragment();
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                i = new Intent(getApplicationContext(), ProjectLoadActivity.class);
+                startActivity(i);
                 break;
             case 1:
-                Intent i = new Intent(getApplicationContext(), ProjectActivity.class);
+                i = new Intent(getApplicationContext(), ProjectActivity.class);
                 startActivity(i);
                 break;
             default:
@@ -124,19 +119,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRFACItemIconClick(int position, RFACLabelItem item) {
+        Intent i;
         switch ((Integer)item.getWrapper()){
             case 0:
-                try {
-                    Fragment fragment = new SavedProjectsFragment();
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                i = new Intent(getApplicationContext(), ProjectLoadActivity.class);
+                startActivity(i);
                 break;
             case 1:
-                Intent i = new Intent(getApplicationContext(), ProjectActivity.class);
+                i = new Intent(getApplicationContext(), ProjectActivity.class);
                 startActivity(i);
                 break;
             default:
@@ -188,44 +178,36 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.nav_server_info:
-                rfaBtn.setVisibility(View.VISIBLE);
-                fragmentClass = ServerInfoFragment.class;
+//                rfaBtn.setVisibility(View.VISIBLE);
+//                fragmentClass = ServerInfoFragment.class;
                 break;
             case R.id.nav_saved_projects:
-                rfaBtn.setVisibility(View.INVISIBLE);
-                fragmentClass = SavedProjectsFragment.class;
+                Intent i = new Intent(getApplicationContext(), ProjectLoadActivity.class);
+                startActivity(i);
                 break;
             case R.id.nav_settings:
-                fragmentClass = SavedProjectsFragment.class;
                 break;
             case R.id.nav_help:
-                fragmentClass = SavedProjectsFragment.class;
                 break;
             case R.id.nav_credits:
-                fragmentClass = SavedProjectsFragment.class;
                 break;
             default:
-                fragmentClass = SavedProjectsFragment.class;
         }
 
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

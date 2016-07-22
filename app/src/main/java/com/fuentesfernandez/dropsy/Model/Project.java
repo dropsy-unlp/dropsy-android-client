@@ -6,12 +6,12 @@ public class Project {
     
     private String name;
     private Date savedDate;
-    private int blocksAmount;
+    private String xmlName;
 
-    public Project(String name, Date savedDate, int blocksAmount){
+    public Project(String name, Date savedDate, String xmlName){
         this.name = name;
         this.savedDate = savedDate;
-        this.blocksAmount = blocksAmount;
+        this.xmlName = xmlName;
     }
 
     public String getName() {
@@ -22,7 +22,7 @@ public class Project {
         return savedDate;
     }
 
-    public int getBlocksAmount() {
-        return blocksAmount;
+    public String getXmlName() {
+        return xmlName;
     }
 }
