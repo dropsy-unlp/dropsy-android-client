@@ -43,8 +43,8 @@ public class ProjectLoadActivity extends AppCompatActivity {
 
     private List<Project> mockProjects(){
         List<Project> projects = new ArrayList<>();
-        Project one = new Project("Test",new Date(),"workspace.xml");
-        Project two = new Project("Nuevo",new Date(),"workspace.xml");
+        Project one = new Project("Test",new Date(),"workspace");
+        Project two = new Project("Nuevo",new Date(),"workspace");
         projects.add(one);
         projects.add(two);
         return projects;

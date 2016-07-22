@@ -109,11 +109,9 @@ public class ProjectActivity extends AbstractBlocklyActivity {
 
     @Override
     protected void onInitBlankWorkspace() {
-        // Initialize variable names.
-        // TODO: (#22) Remove this override when variables are supported properly
         getController().addVariable("item");
         if (!Objects.equals(currentProject, "")){
-            loadWorkspaceFromAppDir(currentProject);
+            loadWorkspaceFromAppDir(currentProject + ".xml");
         }
     }
 
@@ -152,9 +150,8 @@ public class ProjectActivity extends AbstractBlocklyActivity {
                 case R.id.btn_yes:
                     String name = projectName.getText().toString();
                     Date date = new Date();
-                    String xmlName = name + " - " + date.toString();
-                    Project project = new Project(name,new Date(),xmlName);
-                    saveWorkspaceToAppDir(xmlName + ".xml");
+                    Project project = new Project(name,new Date(),name + ".xml");
+                    saveWorkspaceToAppDir(name + ".xml");
                     //projectService.saveProject(project);
                     break;
                 case R.id.btn_no:
