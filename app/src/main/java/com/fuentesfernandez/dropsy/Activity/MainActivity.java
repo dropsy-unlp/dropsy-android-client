@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fuentesfernandez.dropsy.Fragment.CreditsFragment;
 import com.fuentesfernandez.dropsy.Fragment.ServerInfoFragment;
 import com.fuentesfernandez.dropsy.R;
 import com.wangjie.androidbucket.utils.ABTextUtil;
@@ -175,21 +176,27 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass;
 
         int id = item.getItemId();
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (id){
             case R.id.nav_server_info:
-//                rfaBtn.setVisibility(View.VISIBLE);
-//                fragmentClass = ServerInfoFragment.class;
+                rfaBtn.setVisibility(View.VISIBLE);
+                fragmentManager.beginTransaction().replace(R.id.flContent, new ServerInfoFragment()).commit();
                 break;
             case R.id.nav_saved_projects:
                 Intent i = new Intent(getApplicationContext(), ProjectLoadActivity.class);
                 startActivity(i);
                 break;
             case R.id.nav_settings:
+                Intent s = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(s);
                 break;
             case R.id.nav_help:
+                rfaBtn.setVisibility(View.VISIBLE);
+                fragmentManager.beginTransaction().replace(R.id.flContent, new ServerInfoFragment()).commit();
                 break;
             case R.id.nav_credits:
+                rfaBtn.setVisibility(View.VISIBLE);
+                fragmentManager.beginTransaction().replace(R.id.flContent, new CreditsFragment()).commit();
                 break;
             default:
         }
@@ -200,8 +207,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

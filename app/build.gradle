@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
 
     dexOptions {
@@ -29,7 +30,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile files('src/main/java/libs/nineoldandroids-2.4.0.jar')
     compile project(':blocklylib-core-debug')
     compile project(':blocklylib-vertical-debug')
@@ -42,4 +42,7 @@ dependencies {
     compile 'com.github.wangjiegulu:AndroidInject:1.0.6'
     compile 'com.android.support:design:23.4.0'
     compile 'com.codeslap:persistence:0.9.24'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
+    compile 'com.android.support:support-vector-drawable:23.4.0'
+    testCompile 'junit:junit:4.12'
 }

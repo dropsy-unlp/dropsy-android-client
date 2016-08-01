@@ -73,8 +73,7 @@ public class ProjectActivity extends AbstractBlocklyActivity {
 
     @Override
     public void onLoadWorkspace() {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        i.putExtra("LOAD_PROJECT",true);
+        Intent i = new Intent(getApplicationContext(), ProjectLoadActivity.class);
         startActivity(i);
         finish();
     }

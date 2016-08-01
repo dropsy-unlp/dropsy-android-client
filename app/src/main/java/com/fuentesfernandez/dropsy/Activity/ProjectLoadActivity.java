@@ -39,6 +39,7 @@ public class ProjectLoadActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ProjectActivity.class);
                 i.putExtra("PROJECT",savedProjects.get(position).getId());
                 startActivity(i);
+                finish();
             }
         });
 
