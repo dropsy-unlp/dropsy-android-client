@@ -2,19 +2,16 @@ package com.fuentesfernandez.dropsy.Activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.text.InputType;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.fuentesfernandez.dropsy.Model.Project;
-import com.fuentesfernandez.dropsy.ProjectService;
+import com.fuentesfernandez.dropsy.Service.ProjectService;
 import com.fuentesfernandez.dropsy.R;
 import com.google.blockly.android.AbstractBlocklyActivity;
 import com.google.blockly.android.codegen.CodeGenerationRequest;
@@ -24,14 +21,12 @@ import com.google.blockly.android.ui.WorkspaceHelper;
 import com.google.blockly.android.ui.vertical.VerticalBlockViewFactory;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class ProjectActivity extends AbstractBlocklyActivity {
     private static final String TAG = "Nuevo Proyecto";
     private ProjectService projectService;
-    private String currentProject = "";
+    private Project currentProject;
     private static final List<String> BLOCK_DEFINITIONS = Arrays.asList(new String[]{
             "default/logic_blocks.json",
             "default/loop_blocks.json",
@@ -67,8 +62,13 @@ public class ProjectActivity extends AbstractBlocklyActivity {
 
     @Override
     public void onSaveWorkspace() {
-        CustomDialogClass cdd=new CustomDialogClass(ProjectActivity.this, currentProject);
-        cdd.show();
+        if (currentProject == null) {
+            CustomDialogClass cdd = new CustomDialogClass(ProjectActivity.this);
+            cdd.show();
+        } else {
+            saveWorkspaceToAppDir(currentProject.getXmlName());
+            projectService.saveProject(currentProject);
+        }
     }
 
     @Override
@@ -81,6 +81,7 @@ public class ProjectActivity extends AbstractBlocklyActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        projectService = new ProjectService(getBaseContext());
         super.onCreate(savedInstanceState);
 
     }
@@ -92,10 +93,9 @@ public class ProjectActivity extends AbstractBlocklyActivity {
 
     @Override
     protected void onLoadInitialWorkspace() {
-        if (getIntent().getExtras() != null && getIntent().getExtras().getString("PROJECT") != null){
-            currentProject = getIntent().getExtras().getString("PROJECT");
-        } else {
-            currentProject = "";
+        if (getIntent().getExtras() != null && getIntent().getExtras().getLong("PROJECT") != 0){
+            Long projectId = getIntent().getExtras().getLong("PROJECT");
+            currentProject = projectService.getProject(projectId);
         }
         super.onLoadInitialWorkspace();
     }
@@ -110,8 +110,8 @@ public class ProjectActivity extends AbstractBlocklyActivity {
     @Override
     protected void onInitBlankWorkspace() {
         getController().addVariable("item");
-        if (!Objects.equals(currentProject, "")){
-            loadWorkspaceFromAppDir(currentProject + ".xml");
+        if (currentProject != null){
+            loadWorkspaceFromAppDir(currentProject.getXmlName());
         }
     }
 
@@ -119,15 +119,13 @@ public class ProjectActivity extends AbstractBlocklyActivity {
             android.view.View.OnClickListener {
 
         public Activity c;
-        private String name;
         public Dialog d;
         public Button yes, no;
         public EditText projectName;
 
-        public CustomDialogClass(Activity a, String name) {
+        public CustomDialogClass(Activity a) {
             super(a);
             this.c = a;
-            this.name = name;
         }
 
         @Override
@@ -138,7 +136,6 @@ public class ProjectActivity extends AbstractBlocklyActivity {
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             projectName = (EditText) findViewById(R.id.project_name);
-            projectName.setText(name);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -149,10 +146,9 @@ public class ProjectActivity extends AbstractBlocklyActivity {
             switch (v.getId()) {
                 case R.id.btn_yes:
                     String name = projectName.getText().toString();
-                    Date date = new Date();
-                    Project project = new Project(name,new Date(),name + ".xml");
+                    Project project = new Project(name,name + ".xml");
                     saveWorkspaceToAppDir(name + ".xml");
-                    //projectService.saveProject(project);
+                    projectService.saveProject(project);
                     break;
                 case R.id.btn_no:
                     dismiss();
@@ -163,5 +159,7 @@ public class ProjectActivity extends AbstractBlocklyActivity {
             dismiss();
         }
     }
+
+
 
 }

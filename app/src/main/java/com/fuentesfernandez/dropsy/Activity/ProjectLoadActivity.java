@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fuentesfernandez.dropsy.Model.Project;
-import com.fuentesfernandez.dropsy.ProjectService;
+import com.fuentesfernandez.dropsy.Service.ProjectService;
 import com.fuentesfernandez.dropsy.R;
 
 import java.util.ArrayList;
@@ -26,29 +26,32 @@ public class ProjectLoadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        projectService = new ProjectService(getBaseContext());
+
         setContentView(R.layout.activity_project_load2);
         ListView listView = (ListView) findViewById(R.id.project_list);
-        List<Project> savedProjects = mockProjects();
+        final List<Project> savedProjects = projectService.getAllProjects();
         listView.setAdapter(new ProjectListAdapter(savedProjects));
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ProjectActivity.class);
-                i.putExtra("PROJECT",mockProjects().get(position).getXmlName());
+                i.putExtra("PROJECT",savedProjects.get(position).getId());
                 startActivity(i);
             }
         });
-    }
 
-    private List<Project> mockProjects(){
-        List<Project> projects = new ArrayList<>();
-        Project one = new Project("Test",new Date(),"workspace");
-        Project two = new Project("Nuevo",new Date(),"workspace");
-        projects.add(one);
-        projects.add(two);
-        return projects;
     }
+//
+//    private List<Project> mockProjects(){
+//        List<Project> projects = new ArrayList<>();
+//        Project one = new Project("Test",new Date(),"workspace");
+//        Project two = new Project("Nuevo",new Date(),"workspace");
+//        projects.add(one);
+//        projects.add(two);
+//        return projects;
+//    }
 
     public class ProjectListAdapter implements ListAdapter {
 
@@ -104,7 +107,7 @@ public class ProjectLoadActivity extends AppCompatActivity {
             TextView project_name = (TextView) projectListItem.findViewById(R.id.project_name);
             project_name.setText(projects.get(position).getName());
             TextView project_date = (TextView) projectListItem.findViewById(R.id.project_date);
-            project_date.setText(projects.get(position).getSavedDate().toString());
+            if (projects.get(position).getSavedDate() != null)  project_date.setText(projects.get(position).getSavedDate().toString());
             return projectListItem;
         }
 
