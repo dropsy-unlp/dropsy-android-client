@@ -9,12 +9,15 @@
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_name"
-        android:textSize="18sp" />
+        android:textSize="24sp"
+        android:textStyle="normal|bold"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/project_date"
-        android:textSize="10sp" />
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp" />
 </LinearLayout>

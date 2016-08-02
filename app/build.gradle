@@ -44,5 +44,6 @@ dependencies {
     compile 'com.codeslap:persistence:0.9.24'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     compile 'com.android.support:support-vector-drawable:23.4.0'
+    compile 'com.squareup.duktape:duktape-android:0.9.5'
     testCompile 'junit:junit:4.12'
 }

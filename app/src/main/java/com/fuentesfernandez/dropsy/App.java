@@ -11,7 +11,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DatabaseSpec database = PersistenceConfig.registerSpec(/**db version**/1);
+        DatabaseSpec database = PersistenceConfig.registerSpec(2);
         database.match(Project.class);
     }
 

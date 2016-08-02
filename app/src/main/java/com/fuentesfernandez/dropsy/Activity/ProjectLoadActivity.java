@@ -15,8 +15,6 @@ import com.fuentesfernandez.dropsy.Model.Project;
 import com.fuentesfernandez.dropsy.Service.ProjectService;
 import com.fuentesfernandez.dropsy.R;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ProjectLoadActivity extends AppCompatActivity {
@@ -27,7 +25,7 @@ public class ProjectLoadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         projectService = new ProjectService(getBaseContext());
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_project_load2);
         ListView listView = (ListView) findViewById(R.id.project_list);
         final List<Project> savedProjects = projectService.getAllProjects();

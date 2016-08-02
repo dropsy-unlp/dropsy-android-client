@@ -1,7 +1,5 @@
 package com.fuentesfernandez.dropsy.Activity;
 
-
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +15,7 @@ public class StreamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stream);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         vidView = (VideoView)findViewById(R.id.videoView);
         Uri uri = Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm");
         vidView.setVideoURI(uri);

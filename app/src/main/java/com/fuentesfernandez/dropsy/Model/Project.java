@@ -1,8 +1,6 @@
 package com.fuentesfernandez.dropsy.Model;
 
 
-import java.sql.Date;
-
 public class Project {
 
 
@@ -10,12 +8,14 @@ public class Project {
     private String name;
     private String savedDate;
     private String xmlName;
+    private int blocksCount = 0;
 
     public Project(){}
 
-    public Project(String name, String xmlName){
+    public Project(String name, String xmlName, int blocksCount){
         this.name = name;
         this.xmlName = xmlName;
+        this.blocksCount = blocksCount;
     }
 
     public Long getId(){ return id; }
@@ -46,6 +46,14 @@ public class Project {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getBlocksCount() {
+        return blocksCount;
+    }
+
+    public void setBlocksCount(int blocksCount) {
+        this.blocksCount = blocksCount;
     }
 
 }

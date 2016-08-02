@@ -40,6 +40,7 @@
             android:name=".Activity.ProjectActivity"
             android:label="@string/title_activity_project"
             android:screenOrientation="landscape"
+            android:parentActivityName=".Activity.MainActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,16 +51,20 @@
         <activity
             android:name=".Activity.ProjectLoadActivity"
             android:label="@string/load_project"
+            android:parentActivityName=".Activity.MainActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Activity.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:theme="@style/SettingsTheme"
+            android:parentActivityName=".Activity.MainActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Activity.StreamActivity"
             android:screenOrientation="landscape"
+            android:parentActivityName=".Activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_stream"
+            android:label="Vista del Robot"
             android:theme="@style/FullscreenTheme"></activity>
     </application>
 

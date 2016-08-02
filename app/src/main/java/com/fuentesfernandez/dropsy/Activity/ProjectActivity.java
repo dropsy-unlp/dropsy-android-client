@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.fuentesfernandez.dropsy.Model.Project;
 import com.fuentesfernandez.dropsy.Service.ProjectService;
 import com.fuentesfernandez.dropsy.R;
+import com.fuentesfernandez.dropsy.util.CodeInterpretation;
 import com.google.blockly.android.AbstractBlocklyActivity;
 import com.google.blockly.android.codegen.CodeGenerationRequest;
 import com.google.blockly.android.codegen.LoggingCodeGeneratorCallback;
@@ -39,8 +40,7 @@ public class ProjectActivity extends AbstractBlocklyActivity {
             "dropsy/generators.js"
     });
 
-    CodeGenerationRequest.CodeGeneratorCallback mCodeGeneratorCallback =
-            new LoggingCodeGeneratorCallback(this, TAG);
+    private CodeGenerationRequest.CodeGeneratorCallback mCodeGeneratorCallback;
 
     @NonNull
     @Override
@@ -81,6 +81,8 @@ public class ProjectActivity extends AbstractBlocklyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         projectService = new ProjectService(getBaseContext());
+        mCodeGeneratorCallback = new CodeInterpretation(getBaseContext());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
 
     }
@@ -102,8 +104,12 @@ public class ProjectActivity extends AbstractBlocklyActivity {
     @NonNull
     @Override
     protected CodeGenerationRequest.CodeGeneratorCallback getCodeGenerationCallback() {
-        // Uses the same callback for every generation call.
         return mCodeGeneratorCallback;
+    }
+
+    @Override
+    protected void onRunCode() {
+        super.onRunCode();
     }
 
     @Override
@@ -145,7 +151,8 @@ public class ProjectActivity extends AbstractBlocklyActivity {
             switch (v.getId()) {
                 case R.id.btn_yes:
                     String name = projectName.getText().toString();
-                    Project project = new Project(name,name + ".xml");
+                    int blocksCount = mWorkspaceFragment.getWorkspace().getRootBlocks().size();
+                    Project project = new Project(name,name + ".xml", blocksCount);
                     saveWorkspaceToAppDir(name + ".xml");
                     projectService.saveProject(project);
                     break;

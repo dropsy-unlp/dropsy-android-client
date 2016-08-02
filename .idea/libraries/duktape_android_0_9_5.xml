@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="duktape-android-0.9.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.squareup.duktape/duktape-android/0.9.5/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.squareup.duktape/duktape-android/0.9.5/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.duktape/duktape-android/0.9.5/e6263af2a5058c309b28048580699094d7883a7a/duktape-android-0.9.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
