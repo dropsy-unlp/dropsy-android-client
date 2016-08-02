@@ -29,6 +29,8 @@ import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RFACLabelItem;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RapidFloatingActionContentLabelList;
 
+import org.glassfish.grizzly.streams.Stream;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,6 +180,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (id){
+            case R.id.nav_robot_view:
+                Intent r = new Intent(getApplicationContext(), StreamActivity.class);
+                startActivity(r);
+                break;
             case R.id.nav_server_info:
                 rfaBtn.setVisibility(View.VISIBLE);
                 fragmentManager.beginTransaction().replace(R.id.flContent, new ServerInfoFragment()).commit();
