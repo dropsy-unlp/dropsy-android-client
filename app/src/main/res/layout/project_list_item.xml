@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:focusable="false"
     android:layout_height="match_parent">
 
     <TextView
         android:text="TextView"
-        android:layout_width="190dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_name"
         android:textSize="24sp"
         android:textStyle="normal|bold"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true" />
 
     <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
+        android:text="Bloques:"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textSize="16sp"
+        android:layout_below="@+id/project_name"
+        android:layout_toEndOf="@+id/date" />
+
+    <TextView
+        android:text="Fecha:"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_date"
         android:textSize="16sp"
-        android:layout_marginLeft="10dp" />
-</LinearLayout>
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/project_name" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"
+        android:textSize="16sp"
+        android:layout_marginLeft="2dp"
+        android:layout_below="@+id/project_name"
+        android:layout_toEndOf="@+id/project_date" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/blocks_count"
+        android:textSize="16sp"
+        android:layout_marginLeft="2dp"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_toEndOf="@+id/textView4" />
+</RelativeLayout>

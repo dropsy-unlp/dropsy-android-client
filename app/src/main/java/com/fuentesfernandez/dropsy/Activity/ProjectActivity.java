@@ -67,6 +67,8 @@ public class ProjectActivity extends AbstractBlocklyActivity {
             cdd.show();
         } else {
             saveWorkspaceToAppDir(currentProject.getXmlName());
+            int blocksCount = mWorkspaceFragment.getWorkspace().getRootBlocks().size();
+            currentProject.setBlocksCount(blocksCount);
             projectService.saveProject(currentProject);
         }
     }
