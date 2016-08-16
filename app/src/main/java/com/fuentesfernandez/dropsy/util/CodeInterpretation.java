@@ -23,12 +23,8 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
             Toast.makeText(this.context, "Hubo un problema con la generacion de codigo.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this.context, generatedCode, Toast.LENGTH_LONG).show();
-            Duktape duktape = Duktape.create();
+            robotService.setGeneratedCode(generatedCode);
             robotService.connect();
-            duktape.bind("Robot", RobotService.class, robotService);
-            duktape.evaluate(generatedCode);
-            robotService.disconnect();
-            Toast.makeText(this.context, "Codigo ejecutado correctamente", Toast.LENGTH_LONG).show();
         }
     }
 }

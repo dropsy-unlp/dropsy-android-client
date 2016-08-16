@@ -14,18 +14,18 @@
   -->
 
 <toolbox>
-    <category name="Movement" colour="210">
+    <category name="Movimiento" colour="210">
         <block type="movement_turn"></block>
         <block type="movement_move"></block>
     </category>
-    <category name="Logic" colour="210">
+    <category name="Logica" colour="210">
         <block type="controls_if"></block>
         <block type="logic_compare"></block>
         <block type="logic_operation"></block>
         <block type="logic_negate"></block>
         <block type="logic_boolean"></block>
     </category>
-    <category name="Loops" colour="120">
+    <category name="Lazos" colour="120">
         <block type="controls_repeat_ext">
             <value name="TIMES">
                 <shadow type="math_number">

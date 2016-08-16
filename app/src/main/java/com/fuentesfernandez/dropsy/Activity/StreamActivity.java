@@ -17,7 +17,7 @@ public class StreamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stream);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         vidView = (VideoView)findViewById(R.id.videoView);
-        Uri uri = Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm");
+        Uri uri = Uri.parse("https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8");
         vidView.setVideoURI(uri);
         vidView.start();
     }

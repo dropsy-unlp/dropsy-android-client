@@ -1,18 +1,18 @@
 [
   {
     "type": "movement_turn",
-    "message0": "Turn %1 %2",
+    "message0": "Girar a la %1 %2",
     "args0": [
       {
         "type": "field_dropdown",
         "name": "direction",
         "options": [
           [
-            "Left",
+            "Izquierda",
             "left"
           ],
           [
-            "Right",
+            "Derecha",
             "right"
           ]
         ]
@@ -33,18 +33,18 @@
 
   {
     "type": "movement_move",
-    "message0": "Move %1 for %2 seconds %3",
+    "message0": "Mover hacia %1 por %2 segundos %3",
     "args0": [
       {
         "type": "field_dropdown",
         "name": "direction",
         "options": [
           [
-            "Forward",
+            "Adelante",
             "forward"
           ],
           [
-            "Backward",
+            "Atras",
             "backward"
           ]
         ]

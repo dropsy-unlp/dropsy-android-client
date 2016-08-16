@@ -16,7 +16,6 @@ import com.fuentesfernandez.dropsy.R;
 import com.fuentesfernandez.dropsy.util.CodeInterpretation;
 import com.google.blockly.android.AbstractBlocklyActivity;
 import com.google.blockly.android.codegen.CodeGenerationRequest;
-import com.google.blockly.android.codegen.LoggingCodeGeneratorCallback;
 import com.google.blockly.android.ui.BlockViewFactory;
 import com.google.blockly.android.ui.WorkspaceHelper;
 import com.google.blockly.android.ui.vertical.VerticalBlockViewFactory;

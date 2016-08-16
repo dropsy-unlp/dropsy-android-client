@@ -45,5 +45,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     compile 'com.android.support:support-vector-drawable:23.4.0'
     compile 'com.squareup.duktape:duktape-android:0.9.5'
+    compile 'com.koushikdutta.async:androidasync:2.+'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     testCompile 'junit:junit:4.12'
 }

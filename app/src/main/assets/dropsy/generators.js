@@ -21,12 +21,12 @@
 // Extensions to Blockly's language and JavaScript generator.
 Blockly.JavaScript['movement_turn'] = function(block) {
   // Generate JavaScript for moving turning left or right.
-  return 'Robot.' + block.getFieldValue('direction') + '();\n';
+  return 'Robot.' + block.getFieldValue('direction') + '(0,0);\n';
 };
 
 Blockly.JavaScript['movement_move'] = function(block) {
   // Generate JavaScript for moving forward or backward.
   var value = block.getFieldValue('time');
   return 'Robot.' + block.getFieldValue('direction') +
-      '(' + value + ');\n';
+      '(0,' + value + ');\n';
 };
