@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProjectActivity extends AbstractBlocklyActivity {
-    private static final String TAG = "Nuevo Proyecto";
     private ProjectService projectService;
     private Project currentProject;
     private static final List<String> BLOCK_DEFINITIONS = Arrays.asList(new String[]{
@@ -82,7 +81,7 @@ public class ProjectActivity extends AbstractBlocklyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         projectService = new ProjectService(getBaseContext());
-        mCodeGeneratorCallback = new CodeInterpretation(getBaseContext());
+        mCodeGeneratorCallback = new CodeInterpretation(ProjectActivity.this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
 

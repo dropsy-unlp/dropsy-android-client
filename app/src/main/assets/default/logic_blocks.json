@@ -1,7 +1,7 @@
 [
   {
     "type": "controls_if",
-    "message0": "if %1 do %2",
+    "message0": "si %1 entonces %2",
     "args0": [
       {
         "type": "input_value",
@@ -86,7 +86,7 @@
   },
   {
     "type": "logic_negate",
-    "message0": "not %1",
+    "message0": "no %1",
     "args0": [
       {
         "type": "input_value",
@@ -108,11 +108,11 @@
         "name": "BOOL",
         "options": [
           [
-            "true",
+            "verdadero",
             "TRUE"
           ],
           [
-            "false",
+            "falso",
             "FALSE"
           ]
         ]

@@ -40,7 +40,22 @@
                 </shadow>
             </value>
         </block>
-        <block type="controls_for">
+    </category>
+    <category name="Numeros" colour="230">
+        <block type="math_number"></block>
+        <block type="math_arithmetic">
+            <value name="A">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+            <value name="B">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="math_random_int">
             <value name="FROM">
                 <shadow type="math_number">
                     <field name="NUM">1</field>
@@ -48,12 +63,7 @@
             </value>
             <value name="TO">
                 <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-            <value name="BY">
-                <shadow type="math_number">
-                    <field name="NUM">1</field>
+                    <field name="NUM">100</field>
                 </shadow>
             </value>
         </block>

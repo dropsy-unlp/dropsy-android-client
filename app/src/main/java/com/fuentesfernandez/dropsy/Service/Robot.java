@@ -1,12 +1,6 @@
 package com.fuentesfernandez.dropsy.Service;
 
-import android.util.Log;
-
-public interface RobotService {
-
-    public void connect();
-
-    public void disconnect();
+public interface Robot {
 
     public void left(int speed, int time);
 
@@ -16,5 +10,4 @@ public interface RobotService {
 
     public void backward(int speed, int time);
 
-    public void setGeneratedCode(String code);
 }

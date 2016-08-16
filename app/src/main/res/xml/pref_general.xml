@@ -11,8 +11,8 @@
     <EditTextPreference
         android:capitalize="none"
         android:defaultValue="192.168.0.1"
-        android:inputType="number"
-        android:key="192.168.0.1"
+        android:inputType="text"
+        android:key="ip"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -22,7 +22,7 @@
         android:capitalize="none"
         android:defaultValue="8080"
         android:inputType="numberDecimal"
-        android:key="8080"
+        android:key="port"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -37,6 +37,16 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Path" />
+
+    <EditTextPreference
+        android:capitalize="none"
+        android:defaultValue="https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
+        android:inputType="text"
+        android:key="stream_url"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Url Stream de Video" />
 
 
     <!--&lt;!&ndash; NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to-->

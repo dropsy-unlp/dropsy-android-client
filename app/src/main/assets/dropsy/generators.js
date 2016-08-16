@@ -21,7 +21,8 @@
 // Extensions to Blockly's language and JavaScript generator.
 Blockly.JavaScript['movement_turn'] = function(block) {
   // Generate JavaScript for moving turning left or right.
-  return 'Robot.' + block.getFieldValue('direction') + '(0,0);\n';
+    var value = block.getFieldValue('time');
+    return 'Robot.' + block.getFieldValue('direction') + '(0,' + value + ');\n';
 };
 
 Blockly.JavaScript['movement_move'] = function(block) {

@@ -1,14 +1,19 @@
 package com.fuentesfernandez.dropsy.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.R;
+import com.fuentesfernandez.dropsy.Service.RobotManager;
+import com.fuentesfernandez.dropsy.Service.RobotManagerImpl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +32,7 @@ public class ServerInfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private RobotManager robotManager;
     private OnFragmentInteractionListener mListener;
 
     public ServerInfoFragment() {
@@ -59,6 +64,14 @@ public class ServerInfoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String ip = preferences.getString("ip","192.168.0.1");
+        String port = preferences.getString("port","8000");
+        String path = preferences.getString("path","dropsy");
+        String url = "ws://" + ip + ":" + port + "/" + path;
+        robotManager = RobotManagerImpl.getInstance();
+        robotManager.connect(url);
+//        Toast.makeText(getContext(), "Connected to " + url, Toast.LENGTH_LONG).show();
     }
 
     @Override

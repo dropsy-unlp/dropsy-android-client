@@ -1,7 +1,7 @@
 [
   {
     "type": "movement_turn",
-    "message0": "Girar a la %1 %2",
+    "message0": "Girar a la %1 por %2 segundos",
     "args0": [
       {
         "type": "field_dropdown",
@@ -18,9 +18,34 @@
         ]
       },
       {
-        "type": "input_value",
-        "name": "direction",
-        "check": "String"
+        "type": "field_dropdown",
+        "name": "time",
+        "options": [
+          [
+            "0.5",
+            0.5
+          ],
+          [
+            "1",
+            1
+          ],
+          [
+            "2",
+            2
+          ],
+          [
+            "3",
+            3
+          ],
+          [
+            "4",
+            4
+          ],
+          [
+            "5",
+            5
+          ]
+        ]
       }
     ],
     "inputsInline": false,
@@ -33,7 +58,7 @@
 
   {
     "type": "movement_move",
-    "message0": "Mover hacia %1 por %2 segundos %3",
+    "message0": "Mover hacia %1 por %2 segundos",
     "args0": [
       {
         "type": "field_dropdown",
@@ -54,11 +79,6 @@
         "name": "time",
         "value": 0,
         "precision": 1
-      },
-      {
-        "type": "input_value",
-        "name": "direction",
-        "check": "String"
       }
     ],
     "inputsInline": false,
