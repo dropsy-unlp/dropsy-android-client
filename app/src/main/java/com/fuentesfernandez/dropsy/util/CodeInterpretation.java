@@ -29,14 +29,13 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
 
     @Override
     public void onFinishCodeGeneration(final String generatedCode) {
-        final List<RobotInfo> robots = new ArrayList<>();
-        robots.add(new RobotInfo("n6",9));
+        final List<RobotInfo> robots = robotManager.getRobots();
         if(generatedCode.isEmpty()) {
             Toast.makeText(this.context, "Hubo un problema con la generacion de codigo.", Toast.LENGTH_LONG).show();
         } else if (!robotManager.isConnected()){
             Toast.makeText(this.context, "Hubo un problema al conectarse al servidor.", Toast.LENGTH_LONG).show();
-//        } else if (robots.size()==0){
-//            Toast.makeText(this.context, "No hay robots disponibles.", Toast.LENGTH_LONG).show();
+        } else if (robots.size()==0){
+            Toast.makeText(this.context, "No hay robots disponibles.", Toast.LENGTH_LONG).show();
         } else {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
             builderSingle.setTitle("Selecciona un robot: ");

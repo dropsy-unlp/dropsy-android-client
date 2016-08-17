@@ -4,10 +4,6 @@ import android.util.Log;
 
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.koushikdutta.async.ByteBufferList;
-import com.koushikdutta.async.DataEmitter;
-import com.koushikdutta.async.callback.DataCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
 
@@ -15,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +32,22 @@ public class RobotManagerImpl implements RobotManager {
         return robots;
     }
 
-    private void loadRobots(String robots){
+    private void loadRobots(String response){
         try {
+            robots.clear();
             Gson gson = new Gson();
-            List<RobotInfo> robotInfos = new ArrayList<>();
-            JSONObject json = new JSONObject(robots);
+            JSONObject json = new JSONObject(response);
             JSONArray array = json.getJSONArray("value");
             for (int i=0; i<array.length(); i++){
-                robotInfos.add(gson.fromJson(array.getString(i), RobotInfo.class));
+                robots.add(gson.fromJson(array.getString(i), RobotInfo.class));
             }
+
+            ws.setStringCallback(new WebSocket.StringCallback() {
+                @Override
+                public void onStringAvailable(String s) {
+                    Log.d("CLIENTTAG",s);
+                }
+            });
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -53,27 +55,30 @@ public class RobotManagerImpl implements RobotManager {
     }
 
     public void connect(String url){
-        AsyncHttpClient.WebSocketConnectCallback mWebSocketConnectCallback = new AsyncHttpClient.WebSocketConnectCallback() {
-            @Override
-            public void onCompleted(Exception ex, WebSocket webSocket) {
-                ws = webSocket;
-                if (ex != null) {
-                    ex.printStackTrace();
-                    return;
-                }
-                connected = true;
-                ws.setStringCallback(new WebSocket.StringCallback() {
-                    @Override
-                    public void onStringAvailable(String s) {
-                        Log.d("CLIENTTAG",s);
-                        loadRobots(s);
+        if (!connected) {
+            AsyncHttpClient.WebSocketConnectCallback mWebSocketConnectCallback = new AsyncHttpClient.WebSocketConnectCallback() {
+                @Override
+                public void onCompleted(Exception ex, WebSocket webSocket) {
+                    ws = webSocket;
+                    if (ex != null) {
+                        ex.printStackTrace();
+                        return;
                     }
-                });
-            }
+                    connected = true;
+                    sendMessage("global", "get_robots", new ArrayList<>());
+                    ws.setStringCallback(new WebSocket.StringCallback() {
+                        @Override
+                        public void onStringAvailable(String s) {
+                            loadRobots(s);
+                            Log.d("CLIENTTAG", s);
+                        }
+                    });
+                }
 
-        };
-        AsyncHttpClient mAsyncHttpClient = AsyncHttpClient.getDefaultInstance();
-        mAsyncHttpClient.websocket(url, null, mWebSocketConnectCallback);
+            };
+            AsyncHttpClient mAsyncHttpClient = AsyncHttpClient.getDefaultInstance();
+            mAsyncHttpClient.websocket(url, null, mWebSocketConnectCallback);
+        }
     }
 
     public static RobotManagerImpl getInstance(){
@@ -85,6 +90,7 @@ public class RobotManagerImpl implements RobotManager {
 
     public void disconnect(){
         ws.close();
+        connected = false;
         Log.i("RobotManagerImpl", "Disconnecting from server");
     }
 

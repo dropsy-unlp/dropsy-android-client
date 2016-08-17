@@ -22,13 +22,13 @@ public class RobotImpl implements Robot{
     }
 
     private void move(String direction, int speed, int time){
+        Log.i("RobotManagerImpl", "time = " + time);
         if (speed == 0) speed = 50;
-        if (time == 0) time = 500;
-        else time = time * 1000;
+        if (time == 0) time = 5;
         List<Object> args = new ArrayList<>();
         args.add(getRobotJSONObject());
         args.add(speed);
-        args.add(time);
+//        args.add(time);
         sendMessageToRobot(direction,args);
         Log.i("RobotManagerImpl", "Moving robot " + direction);
         delayedStop(time);
@@ -57,7 +57,7 @@ public class RobotImpl implements Robot{
     }
 
     private void delayedStop(int time){
-        SystemClock.sleep(time);
+        SystemClock.sleep(time*1000);
         stop();
     }
 
