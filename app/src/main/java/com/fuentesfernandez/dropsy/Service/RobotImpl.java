@@ -22,15 +22,14 @@ public class RobotImpl implements Robot{
     }
 
     private void move(String direction, int speed, int time){
-        Log.i("RobotManagerImpl", "time = " + time);
+        Log.i("RobotManager", "time = " + time);
         if (speed == 0) speed = 50;
         if (time == 0) time = 5;
         List<Object> args = new ArrayList<>();
         args.add(getRobotJSONObject());
         args.add(speed);
-//        args.add(time);
-        sendMessageToRobot(direction,args);
-        Log.i("RobotManagerImpl", "Moving robot " + direction);
+         sendMessageToRobot(direction,args);
+        Log.i("RobotManager", "Moving robot " + direction);
         delayedStop(time);
     }
 

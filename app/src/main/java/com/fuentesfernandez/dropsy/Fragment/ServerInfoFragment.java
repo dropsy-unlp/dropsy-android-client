@@ -2,90 +2,63 @@ package com.fuentesfernandez.dropsy.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fuentesfernandez.dropsy.Model.RobotInfo;
 import com.fuentesfernandez.dropsy.R;
 import com.fuentesfernandez.dropsy.Service.RobotManager;
-import com.fuentesfernandez.dropsy.Service.RobotManagerImpl;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ServerInfoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ServerInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ServerInfoFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class ServerInfoFragment extends Fragment implements Observer{
+
     private RobotManager robotManager;
     private OnFragmentInteractionListener mListener;
-
+    private RobotListAdapter robotListAdapter;
+    private String url;
     public ServerInfoFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ServerInfoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ServerInfoFragment newInstance(String param1, String param2) {
-        ServerInfoFragment fragment = new ServerInfoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String ip = preferences.getString("ip","192.168.0.1");
         String port = preferences.getString("port","8000");
         String path = preferences.getString("path","dropsy");
-        String url = "ws://" + ip + ":" + port + "/" + path;
-        robotManager = RobotManagerImpl.getInstance();
-        robotManager.connect(url);
-//        Toast.makeText(getContext(), "Connected to " + url, Toast.LENGTH_LONG).show();
+        url = "ws://" + ip + ":" + port + "/" + path;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_server_info, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ListView robotListView = (ListView) getView().findViewById(R.id.robot_list);
+        robotListAdapter = new RobotListAdapter(getContext(),0);
+        robotListView.setAdapter(robotListAdapter);
+        robotManager = RobotManager.getInstance();
+        robotManager.addObserver(this);
+        robotManager.connect(url);
     }
 
     @Override
@@ -105,6 +78,15 @@ public class ServerInfoFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        String string = (String) data;
+        if (string.equals("connection")){
+            TextView connection_status = (TextView) getView().findViewById(R.id.connection_status);
+            connection_status.setText("Conectado");
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -116,7 +98,93 @@ public class ServerInfoFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public class RobotListAdapter extends ArrayAdapter implements Observer {
+        private List<RobotInfo> robots;
+        private Context context;
+
+        public RobotListAdapter(Context context, int resource) {
+            super(context, resource);
+            this.robots = RobotManager.getInstance().getRobots();
+            this.context = context;
+            RobotManager.getInstance().addObserver(this);
+        }
+
+        @Override
+        public void registerDataSetObserver(DataSetObserver observer) {
+
+        }
+
+        @Override
+        public void unregisterDataSetObserver(DataSetObserver observer) {
+
+        }
+
+        @Override
+        public int getCount() {
+            return robots.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return robots.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return robots.get(position).getRobot_id();
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View robotListItem = getActivity().getLayoutInflater().inflate(R.layout.robot_list_item,null);
+            TextView robot_id = (TextView) robotListItem.findViewById(R.id.id);
+            robot_id.setText(String.valueOf(robots.get(position).getRobot_id()));
+            TextView robot_model = (TextView) robotListItem.findViewById(R.id.model);
+            robot_model.setText(robots.get(position).getRobot_model());
+            return robotListItem;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return 0;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 1;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+            return true;
+        }
+
+        @Override
+        public void update(Observable observable, Object data) {
+            String string = (String) data;
+            if (string.equals("robots")){
+                this.robots = RobotManager.getInstance().getRobots();
+                notifyDataSetChanged();
+            }
+
+        }
     }
 }

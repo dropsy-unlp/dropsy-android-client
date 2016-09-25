@@ -7,15 +7,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
-import com.fuentesfernandez.dropsy.R;
 import com.fuentesfernandez.dropsy.Service.Robot;
 import com.fuentesfernandez.dropsy.Service.RobotImpl;
 import com.fuentesfernandez.dropsy.Service.RobotManager;
-import com.fuentesfernandez.dropsy.Service.RobotManagerImpl;
 import com.google.blockly.android.codegen.CodeGenerationRequest;
 import com.squareup.duktape.Duktape;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCallback {
@@ -24,7 +21,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
 
     public CodeInterpretation(Context context){
         this.context = context;
-        this.robotManager = RobotManagerImpl.getInstance();
+        this.robotManager = RobotManager.getInstance();
     }
 
     @Override

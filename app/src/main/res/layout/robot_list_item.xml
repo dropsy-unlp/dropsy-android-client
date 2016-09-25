@@ -5,30 +5,20 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="TextView"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/project_name"
-        android:textSize="24sp"
-        android:textStyle="normal|bold"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentTop="true" />
-
-    <TextView
-        android:text="Bloques:"
-        android:layout_width="70dp"
+        android:text="Modelo:"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:id="@+id/robot_model"
-        android:textSize="16sp"
+        android:textSize="30sp"
         android:layout_below="@+id/project_name"
         android:layout_toEndOf="@+id/id" />
 
     <TextView
-        android:text="Fecha:"
+        android:text="ID:"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/robot_id"
-        android:textSize="16sp"
+        android:textSize="30sp"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/project_name" />
 
@@ -36,7 +26,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/id"
-        android:textSize="16sp"
+        android:textSize="30sp"
         android:layout_marginLeft="2dp"
         android:layout_below="@+id/project_name"
         android:layout_toEndOf="@+id/robot_id" />
@@ -44,8 +34,8 @@
     <TextView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:id="@+id/blocks_count"
-        android:textSize="16sp"
+        android:id="@+id/model"
+        android:textSize="30sp"
         android:layout_marginLeft="2dp"
         android:layout_alignBaseline="@+id/robot_model"
         android:layout_alignBottom="@+id/robot_model"

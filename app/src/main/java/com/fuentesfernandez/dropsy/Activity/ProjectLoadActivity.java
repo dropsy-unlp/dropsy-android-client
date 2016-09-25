@@ -96,7 +96,7 @@ public class ProjectLoadActivity extends AppCompatActivity {
             View projectListItem = getLayoutInflater().inflate(R.layout.project_list_item,null);
             TextView project_name = (TextView) projectListItem.findViewById(R.id.project_name);
             project_name.setText(projects.get(position).getName());
-            TextView project_date = (TextView) projectListItem.findViewById(R.id.date);
+            TextView project_date = (TextView) projectListItem.findViewById(R.id.id);
             TextView block_count = (TextView) projectListItem.findViewById(R.id.blocks_count);
             block_count.setText(Integer.toString(projects.get(position).getBlocksCount()));
             if (projects.get(position).getSavedDate() != null)  project_date.setText(projects.get(position).getSavedDate());
