@@ -55,6 +55,8 @@ public class RobotManager extends Observable {
     }
 
     public void connect(String url){
+        connected = false;
+
         if (!connected) {
             AsyncHttpClient.WebSocketConnectCallback mWebSocketConnectCallback = new AsyncHttpClient.WebSocketConnectCallback() {
                 @Override

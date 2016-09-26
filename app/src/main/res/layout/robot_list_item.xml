@@ -14,8 +14,8 @@
         android:layout_toEndOf="@+id/id" />
 
     <TextView
-        android:text="ID:"
-        android:layout_width="50dp"
+        android:text="Robot ID:"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:id="@+id/robot_id"
         android:textSize="30sp"

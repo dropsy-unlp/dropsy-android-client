@@ -1,8 +1,10 @@
 package com.fuentesfernandez.dropsy.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,17 +33,13 @@ public class ServerInfoFragment extends Fragment implements Observer{
     private OnFragmentInteractionListener mListener;
     private RobotListAdapter robotListAdapter;
     private String url;
+    private boolean connected = false;
     public ServerInfoFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String ip = preferences.getString("ip","192.168.0.1");
-        String port = preferences.getString("port","8000");
-        String path = preferences.getString("path","dropsy");
-        url = "ws://" + ip + ":" + port + "/" + path;
     }
 
     @Override
@@ -58,7 +56,19 @@ public class ServerInfoFragment extends Fragment implements Observer{
         robotListView.setAdapter(robotListAdapter);
         robotManager = RobotManager.getInstance();
         robotManager.addObserver(this);
-        robotManager.connect(url);
+        loadConnectionUrl();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadConnectionUrl();
+        if (!connected || connectionSettingsChanged()){
+            if (connected) {
+                disconnect();
+            }
+            robotManager.connect(url);
+        }
     }
 
     @Override
@@ -82,9 +92,39 @@ public class ServerInfoFragment extends Fragment implements Observer{
     public void update(Observable observable, Object data) {
         String string = (String) data;
         if (string.equals("connection")){
-            TextView connection_status = (TextView) getView().findViewById(R.id.connection_status);
-            connection_status.setText("Conectado");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView connection_status = (TextView) getView().findViewById(R.id.connection_status);
+                    connection_status.setText("Conectado");
+                    connection_status.setTextColor(Color.GREEN);
+                    connected = true;
+                }
+            });
+
         }
+    }
+
+    private void disconnect(){
+        robotManager.disconnect();
+        TextView connection_status = (TextView) getView().findViewById(R.id.connection_status);
+        connection_status.setText("Desconectado");
+        connection_status.setTextColor(Color.RED);
+        connected = false;
+    }
+
+    private void loadConnectionUrl(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String ip = preferences.getString("ip","192.168.0.1");
+        String port = preferences.getString("port","8000");
+        String path = preferences.getString("path","dropsy");
+        url = "ws://" + ip + ":" + port + "/" + path;
+    }
+
+    private boolean connectionSettingsChanged(){
+        String oldUrl = url;
+        loadConnectionUrl();
+        return !oldUrl.equals(url);
     }
 
     /**

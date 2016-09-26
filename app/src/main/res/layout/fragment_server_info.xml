@@ -11,16 +11,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
         android:textSize="36sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_centerHorizontal="true" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
         android:id="@+id/robot_list"
-        android:layout_marginTop="30dp" />
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:text="Robots disponibles:"
@@ -28,9 +30,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
         android:textSize="36sp"
-        android:layout_below="@+id/textView3"
-        android:layout_alignStart="@+id/textView3"
-        android:layout_marginTop="10dp" />
+        android:layout_below="@+id/connection_status"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp" />
 
     <TextView
         android:text="Desconectado"
@@ -38,9 +40,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/connection_status"
         android:textSize="36sp"
-        android:layout_marginLeft="10dp"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3" />
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="#b44d4d" />
 
 </RelativeLayout>

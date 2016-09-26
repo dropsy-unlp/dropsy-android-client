@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "com.fuentesfernandez.dropsy"
-        minSdkVersion 19
-        targetSdkVersion 23
+        minSdkVersion 16
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -33,17 +33,17 @@ dependencies {
     compile files('src/main/java/libs/nineoldandroids-2.4.0.jar')
     compile project(':blocklylib-core-debug')
     compile project(':blocklylib-vertical-debug')
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:support-v4:24.1.0'
+    compile 'com.android.support:appcompat-v7:24.1.0'
+    compile 'com.android.support:recyclerview-v7:24.1.0'
     compile 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.5'
     compile 'com.github.wangjiegulu:RapidFloatingActionButton:1.0.3'
     compile 'com.github.wangjiegulu:AndroidBucket:1.0.4'
     compile 'com.github.wangjiegulu:AndroidInject:1.0.6'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:design:24.1.0'
     compile 'com.codeslap:persistence:0.9.24'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
-    compile 'com.android.support:support-vector-drawable:23.4.0'
+    compile 'com.android.support:support-vector-drawable:24.1.0'
     compile 'com.squareup.duktape:duktape-android:0.9.5'
     compile 'com.koushikdutta.async:androidasync:2.+'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
