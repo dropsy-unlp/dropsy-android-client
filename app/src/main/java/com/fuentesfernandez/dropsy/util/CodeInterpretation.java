@@ -126,6 +126,22 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                 });
             }
         });
+        vidView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                progDailog.dismiss();
+                mVideoDialog.hide();
+                Toast.makeText(context, "Hubo un problema con el stream de video. Ejecutando codigo...", Toast.LENGTH_LONG).show();
+                final AsyncTask task = new codeEvaluationTask();
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        task.execute();
+                    }
+                });
+                return true;
+            }
+        });
     }
 
     private void hideStream(){
