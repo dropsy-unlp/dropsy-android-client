@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.fuentesfernandez.dropsy"
@@ -20,7 +20,7 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled true
+
         }
         release {
             minifyEnabled false
@@ -31,8 +31,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('src/main/java/libs/nineoldandroids-2.4.0.jar')
-    compile project(':blocklylib-core-debug')
-    compile project(':blocklylib-vertical-debug')
     compile 'com.android.support:support-v4:24.1.0'
     compile 'com.android.support:appcompat-v7:24.1.0'
     compile 'com.android.support:recyclerview-v7:24.1.0'
@@ -45,7 +43,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     compile 'com.android.support:support-vector-drawable:24.1.0'
     compile 'com.squareup.duktape:duktape-android:0.9.5'
-    compile 'com.koushikdutta.async:androidasync:2.+'
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    compile 'com.koushikdutta.async:androidasync:2.1.9'
+    compile 'com.google.code.gson:gson:2.7'
     testCompile 'junit:junit:4.12'
+    compile project(':blocklylib-core-debug')
+    compile project(':blocklylib-vertical-debug')
 }

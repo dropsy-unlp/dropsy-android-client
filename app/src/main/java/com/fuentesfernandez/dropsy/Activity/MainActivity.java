@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         List<RFACLabelItem> items = new ArrayList<>();
         items.add(new RFACLabelItem<Integer>()
                         .setLabel("Nuevo proyecto")
-                        .setResId(R.mipmap.ic_launcher)
+                        .setResId(R.drawable.ic_play_arrow_white_24dp)
                         .setIconNormalColor(0xff4e342e)
                         .setIconPressedColor(0xff3e2723)
                         .setLabelColor(Color.WHITE)
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         );
         items.add(new RFACLabelItem<Integer>()
                         .setLabel("Cargar proyecto")
-                        .setResId(R.mipmap.ic_launcher)
+                        .setResId(R.drawable.ic_file_upload_white_24dp)
                         .setIconNormalColor(0xffd84315)
                         .setIconPressedColor(0xffbf360c)
                         .setWrapper(0)

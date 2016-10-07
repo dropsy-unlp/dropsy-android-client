@@ -7,6 +7,8 @@ import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +24,11 @@ import com.fuentesfernandez.dropsy.Model.RobotInfo;
 import com.fuentesfernandez.dropsy.R;
 import com.fuentesfernandez.dropsy.Service.RobotManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.regex.Pattern;
 
 public class ServerInfoFragment extends Fragment implements Observer{
 
@@ -40,6 +43,7 @@ public class ServerInfoFragment extends Fragment implements Observer{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        robotManager = RobotManager.getInstance(getContext());
     }
 
     @Override
@@ -54,21 +58,15 @@ public class ServerInfoFragment extends Fragment implements Observer{
         ListView robotListView = (ListView) getView().findViewById(R.id.robot_list);
         robotListAdapter = new RobotListAdapter(getContext(),0);
         robotListView.setAdapter(robotListAdapter);
-        robotManager = RobotManager.getInstance();
         robotManager.addObserver(this);
-        loadConnectionUrl();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadConnectionUrl();
-        if (!connected || connectionSettingsChanged()){
-            if (connected) {
-                disconnect();
-            }
-            robotManager.connect(url);
-        }
+        connected = robotManager.isConnected();
+        updateConnectionStatus(connected);
+        robotManager.connect();
     }
 
     @Override
@@ -95,37 +93,30 @@ public class ServerInfoFragment extends Fragment implements Observer{
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView connection_status = (TextView) getView().findViewById(R.id.connection_status);
-                    connection_status.setText("Conectado");
-                    connection_status.setTextColor(Color.GREEN);
-                    connected = true;
+                    updateConnectionStatus(true);
                 }
             });
-
         }
+    }
+
+    private void updateConnectionStatus(final Boolean isConnected){
+        TextView connection_status = (TextView) getView().findViewById(R.id.connection_status);
+        if (isConnected) {
+            connection_status.setText("Conectado");
+            connection_status.setTextColor(Color.GREEN);
+        } else {
+            connection_status.setText("Desconectado");
+            connection_status.setTextColor(Color.RED);
+        }
+        connected = isConnected;
     }
 
     private void disconnect(){
         robotManager.disconnect();
-        TextView connection_status = (TextView) getView().findViewById(R.id.connection_status);
-        connection_status.setText("Desconectado");
-        connection_status.setTextColor(Color.RED);
-        connected = false;
+        updateConnectionStatus(false);
     }
 
-    private void loadConnectionUrl(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String ip = preferences.getString("ip","192.168.0.1");
-        String port = preferences.getString("port","8000");
-        String path = preferences.getString("path","dropsy");
-        url = "ws://" + ip + ":" + port + "/" + path;
-    }
 
-    private boolean connectionSettingsChanged(){
-        String oldUrl = url;
-        loadConnectionUrl();
-        return !oldUrl.equals(url);
-    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -147,9 +138,10 @@ public class ServerInfoFragment extends Fragment implements Observer{
 
         public RobotListAdapter(Context context, int resource) {
             super(context, resource);
-            this.robots = RobotManager.getInstance().getRobots();
+            this.robots = new ArrayList<>();
+            this.robots.addAll(robotManager.getRobots());
             this.context = context;
-            RobotManager.getInstance().addObserver(this);
+            robotManager.addObserver(this);
         }
 
         @Override
@@ -221,8 +213,14 @@ public class ServerInfoFragment extends Fragment implements Observer{
         public void update(Observable observable, Object data) {
             String string = (String) data;
             if (string.equals("robots")){
-                this.robots = RobotManager.getInstance().getRobots();
-                notifyDataSetChanged();
+                this.robots.clear();
+                this.robots.addAll(robotManager.getRobots());
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        robotListAdapter.notifyDataSetChanged();
+                    }
+                });
             }
 
         }

@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:focusable="false"
-    android:layout_height="match_parent">
+    android:background="@drawable/listview"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
 
     <TextView
         android:text="Modelo:"
@@ -11,7 +13,8 @@
         android:id="@+id/robot_model"
         android:textSize="30sp"
         android:layout_below="@+id/project_name"
-        android:layout_toEndOf="@+id/id" />
+        android:layout_toEndOf="@+id/id"
+        android:layout_toRightOf="@+id/id" />
 
     <TextView
         android:text="Robot ID:"
@@ -29,7 +32,8 @@
         android:textSize="30sp"
         android:layout_marginLeft="2dp"
         android:layout_below="@+id/project_name"
-        android:layout_toEndOf="@+id/robot_id" />
+        android:layout_toEndOf="@+id/robot_id"
+        android:layout_toRightOf="@+id/robot_id" />
 
     <TextView
         android:layout_width="100dp"

@@ -1,12 +1,26 @@
 package com.fuentesfernandez.dropsy.util;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
+import com.fuentesfernandez.dropsy.R;
 import com.fuentesfernandez.dropsy.Service.Robot;
 import com.fuentesfernandez.dropsy.Service.RobotImpl;
 import com.fuentesfernandez.dropsy.Service.RobotManager;
@@ -18,14 +32,21 @@ import java.util.List;
 public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCallback {
     private Context context;
     private RobotManager robotManager;
+    private Duktape duktape;
+    private String generatedCode;
+    private VideoView vidView;
+    private Dialog mVideoDialog;
+    private ProgressDialog progDailog;
+
 
     public CodeInterpretation(Context context){
         this.context = context;
-        this.robotManager = RobotManager.getInstance();
+        this.robotManager = RobotManager.getInstance(context);
     }
 
     @Override
-    public void onFinishCodeGeneration(final String generatedCode) {
+    public void onFinishCodeGeneration(final String newCode) {
+        generatedCode = newCode;
         final List<RobotInfo> robots = robotManager.getRobots();
         if(generatedCode.isEmpty()) {
             Toast.makeText(this.context, "Hubo un problema con la generacion de codigo.", Toast.LENGTH_LONG).show();
@@ -34,17 +55,20 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
         } else if (robots.size()==0){
             Toast.makeText(this.context, "No hay robots disponibles.", Toast.LENGTH_LONG).show();
         } else {
+
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
             builderSingle.setTitle("Selecciona un robot: ");
-
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                    context,
-                    android.R.layout.select_dialog_singlechoice);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View convertView = (View) inflater.inflate(R.layout.robot_select_list, null);
+            builderSingle.setView(convertView);
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                    context, R.layout.robot_simple_list_item);
             for (RobotInfo robotInfo : robots){
-                arrayAdapter.add("ID: " + robotInfo.getRobot_id() + "  -  Model: " + robotInfo.getRobot_model());
+                arrayAdapter.add("Robot ID: " + robotInfo.getRobot_id() + "  -  Modelo: " + robotInfo.getRobot_model());
             }
+
             builderSingle.setNegativeButton(
-                    "cancel",
+                    "Cancelar",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -57,17 +81,70 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                             RobotInfo robotInfo = robots.get(which);
-                            Toast.makeText(context, generatedCode, Toast.LENGTH_LONG).show();
-                            Duktape duktape = Duktape.create();
+                            duktape = Duktape.create();
                             RobotImpl robot = new RobotImpl(robotInfo,robotManager);
                             duktape.bind("Robot", Robot.class, robot);
-                            dialog.dismiss();
-                            duktape.evaluate(generatedCode);
+                            final AsyncTask task = new codeEvaluationTask();
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showStream();
+                                }
+                            });
+
                         }
                     });
             builderSingle.show();
 
+        }
+    }
+
+    private void showStream(){
+        mVideoDialog = new Dialog(context);
+        mVideoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mVideoDialog.setContentView(R.layout.stream_dialog);
+        vidView = (VideoView) mVideoDialog.findViewById(R.id.video_view);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String url = preferences.getString("stream_url","https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8");
+        Uri uri = Uri.parse(url);
+        vidView.setVideoURI(uri);
+        vidView.setZOrderOnTop(true);
+        mVideoDialog.show();
+        vidView.start();
+        progDailog = ProgressDialog.show(context, "Espere por favor ...", "Cargando stream...", true);
+        vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            public void onPrepared(MediaPlayer mp) {
+                progDailog.dismiss();
+                final AsyncTask task = new codeEvaluationTask();
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        task.execute();
+                    }
+                });
+            }
+        });
+    }
+
+    private void hideStream(){
+        vidView.stopPlayback();
+        mVideoDialog.hide();
+    }
+
+    private class codeEvaluationTask extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            duktape.evaluate(generatedCode);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            hideStream();
         }
     }
 }

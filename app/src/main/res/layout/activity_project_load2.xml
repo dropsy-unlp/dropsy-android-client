@@ -8,9 +8,14 @@
     tools:context="com.fuentesfernandez.dropsy.Activity.ProjectLoadActivity">
 
     <ListView
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:id="@+id/project_list"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>

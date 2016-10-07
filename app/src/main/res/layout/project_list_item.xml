@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:focusable="false"
+    android:background="@drawable/listview"
     android:layout_height="match_parent">
 
     <TextView
@@ -9,7 +10,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/project_name"
-        android:textSize="24sp"
+        android:textSize="27sp"
         android:textStyle="normal|bold"
         android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true" />
@@ -30,7 +31,8 @@
         android:id="@+id/robot_id"
         android:textSize="16sp"
         android:layout_marginLeft="10dp"
-        android:layout_below="@+id/project_name" />
+        android:layout_below="@+id/project_name"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="100dp"
@@ -39,7 +41,8 @@
         android:textSize="16sp"
         android:layout_marginLeft="2dp"
         android:layout_below="@+id/project_name"
-        android:layout_toEndOf="@+id/robot_id" />
+        android:layout_toEndOf="@+id/robot_id"
+        android:layout_toRightOf="@+id/robot_id" />
 
     <TextView
         android:layout_width="100dp"

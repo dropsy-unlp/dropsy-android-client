@@ -28,7 +28,7 @@ public class RobotImpl implements Robot{
         List<Object> args = new ArrayList<>();
         args.add(getRobotJSONObject());
         args.add(speed);
-         sendMessageToRobot(direction,args);
+        sendMessageToRobot(direction,args);
         Log.i("RobotManager", "Moving robot " + direction);
         delayedStop(time);
     }
