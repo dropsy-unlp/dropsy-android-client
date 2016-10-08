@@ -1,11 +1,15 @@
 package com.fuentesfernandez.dropsy.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,8 +65,36 @@ public class ProjectActivity extends AbstractBlocklyActivity {
     @Override
     public void onSaveWorkspace() {
         if (currentProject == null) {
-            CustomDialogClass cdd = new CustomDialogClass(ProjectActivity.this);
-            cdd.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Ingresa el nombre de tu proyecto:");
+            // I'm using fragment here so I'm using getView() to provide ViewGroup
+            // but you can provide here any other instance of ViewGroup from your Fragment / Activity
+            View viewInflated = LayoutInflater.from(this).inflate(R.layout.save_project_dialog_2, null, false);
+            // Set up the input
+            final EditText input = (EditText) viewInflated.findViewById(R.id.input);
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            builder.setView(viewInflated);
+
+            // Set up the buttons
+            builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    String name = input.getText().toString();
+                    int blocksCount = mWorkspaceFragment.getWorkspace().getRootBlocks().size();
+                    Project project = new Project(name,name + ".xml", blocksCount);
+                    saveWorkspaceToAppDir(name + ".xml");
+                    projectService.saveProject(project);
+                }
+            });
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
         } else {
             saveWorkspaceToAppDir(currentProject.getXmlName());
             int blocksCount = mWorkspaceFragment.getWorkspace().getRootBlocks().size();

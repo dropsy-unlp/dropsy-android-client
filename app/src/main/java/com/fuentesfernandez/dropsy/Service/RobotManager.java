@@ -97,7 +97,7 @@ public class RobotManager extends Observable {
             try {
                 mAsyncHttpClient.websocket(url, null, mWebSocketConnectCallback);
             } catch (Exception e) {
-                Log.d("ERROR", "Hubo un problema al conectarse al servidor.");
+                Toast.makeText(context, "ubo un problema al conectarse al servidor.", Toast.LENGTH_LONG).show();
             }
         }
     }

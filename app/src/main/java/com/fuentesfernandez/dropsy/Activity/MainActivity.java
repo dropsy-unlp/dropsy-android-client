@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.Fragment.CreditsFragment;
 import com.fuentesfernandez.dropsy.Fragment.ServerInfoFragment;
+import com.fuentesfernandez.dropsy.Fragment.StreamFragment;
 import com.fuentesfernandez.dropsy.R;
 import com.wangjie.androidbucket.utils.ABTextUtil;
 import com.wangjie.androidbucket.utils.imageprocess.ABShape;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -174,15 +176,12 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment fragment = null;
-        Class fragmentClass;
-
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (id){
             case R.id.nav_robot_view:
-                Intent r = new Intent(getApplicationContext(), StreamActivity.class);
-                startActivity(r);
+                rfaBtn.setVisibility(View.INVISIBLE);
+                fragmentManager.beginTransaction().replace(R.id.flContent, new StreamFragment()).commit();
                 break;
             case R.id.nav_server_info:
                 rfaBtn.setVisibility(View.VISIBLE);

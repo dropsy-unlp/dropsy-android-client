@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="120dp"
     android:orientation="vertical" >
@@ -34,7 +35,8 @@
             android:clickable="true"
             android:text="Guardar"
             android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColorLink="@color/colorPrimary" />
 
         <Button
             android:id="@+id/btn_no"
@@ -45,7 +47,8 @@
             android:clickable="true"
             android:text="Cancelar"
             android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColorLink="@color/colorPrimary" />
     </LinearLayout>
 
 </LinearLayout>
