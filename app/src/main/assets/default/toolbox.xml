@@ -16,6 +16,7 @@
 <toolbox>
     <category name="Movimiento" colour="210">
         <block type="movement_turn"></block>
+        <block type="movement_turn_2"></block>
         <block type="movement_move"></block>
     </category>
     <category name="Logica" colour="210">

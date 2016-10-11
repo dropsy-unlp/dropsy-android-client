@@ -87,5 +87,53 @@
     "colour": 290,
     "tooltip": "",
     "helpUrl": "http://www.example.com/"
+  },
+  {
+    "type": "movement_turn_2",
+    "message0": "Girar a la %1 %2 grados",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "direction",
+        "options": [
+          [
+            "Izquierda",
+            "left"
+          ],
+          [
+            "Derecha",
+            "right"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "degrees",
+        "options": [
+          [
+            "90",
+            0.75
+          ],
+          [
+            "180",
+            1.5
+          ],
+          [
+            "270",
+            2.25
+          ],
+          [
+            "360",
+            3
+          ]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 290,
+    "tooltip": "",
+    "helpUrl": "http://www.example.com/"
   }
 ]

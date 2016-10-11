@@ -60,6 +60,7 @@ public class ServerInfoFragment extends Fragment implements Observer{
         robotListView.setAdapter(robotListAdapter);
         robotManager.addObserver(this);
         Button refreshButton = (Button) getView().findViewById(R.id.refresh);
+//        refreshButton.setBackgroundResource(R.drawable.refresh_button);
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,17 +132,6 @@ public class ServerInfoFragment extends Fragment implements Observer{
     }
 
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

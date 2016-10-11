@@ -31,8 +31,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('src/main/java/libs/nineoldandroids-2.4.0.jar')
-    compile project(':blocklylib-core-debug')
-    compile project(':blocklylib-vertical-debug')
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
@@ -48,4 +46,6 @@ dependencies {
     compile 'com.koushikdutta.async:androidasync:2.1.9'
     compile 'com.google.code.gson:gson:2.7'
     testCompile 'junit:junit:4.12'
+    compile project(':blocklylib-core-debug')
+    compile project(':blocklylib-vertical-debug')
 }

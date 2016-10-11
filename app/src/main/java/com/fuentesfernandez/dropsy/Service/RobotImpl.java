@@ -24,7 +24,7 @@ public class RobotImpl implements Robot{
     private void move(String direction, int speed, int time){
         Log.i("RobotManager", "time = " + time);
         if (speed == 0) speed = 50;
-        if (time == 0) time = 5;
+        if (time == 0) time = 5000;
         List<Object> args = new ArrayList<>();
         args.add(getRobotJSONObject());
         args.add(speed);
@@ -56,7 +56,7 @@ public class RobotImpl implements Robot{
     }
 
     private void delayedStop(int time){
-        SystemClock.sleep(time*1000);
+        SystemClock.sleep(time);
         stop();
     }
 
