@@ -51,4 +51,15 @@
         android:layout_centerHorizontal="true"
         android:textStyle="normal|bold" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/connection_status"
+        android:id="@+id/refresh"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:background="@drawable/ic_sync_black_24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/connection_status"
+        android:layout_above="@+id/textView2" />
+
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
 import com.google.gson.Gson;
+import com.koushikdutta.async.callback.CompletedCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
 
@@ -77,6 +78,8 @@ public class RobotManager extends Observable {
                     ws = webSocket;
                     if (ex != null) {
                         ex.printStackTrace();
+                        setChanged();
+                        notifyObservers("disconnection");
                         return;
                     }
                     connected = true;
@@ -90,6 +93,20 @@ public class RobotManager extends Observable {
                             Log.d("CLIENTTAG", s);
                         }
                     });
+
+                    ws.setClosedCallback(new CompletedCallback() {
+                        @Override
+                        public void onCompleted(Exception ex) {
+                            disconnect();
+                        }
+                    });
+
+                    ws.setEndCallback(new CompletedCallback() {
+                        @Override
+                        public void onCompleted(Exception ex) {
+                            disconnect();
+                        }
+                    });
                 }
 
             };
@@ -97,7 +114,7 @@ public class RobotManager extends Observable {
             try {
                 mAsyncHttpClient.websocket(url, null, mWebSocketConnectCallback);
             } catch (Exception e) {
-                Toast.makeText(context, "ubo un problema al conectarse al servidor.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Hubo un problema al conectarse al servidor.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -113,6 +130,8 @@ public class RobotManager extends Observable {
         robots.clear();
         setChanged();
         notifyObservers("robots");
+        setChanged();
+        notifyObservers("disconnection");
         ws.close();
         connected = false;
         Log.i("RobotManager", "Disconnecting from server");

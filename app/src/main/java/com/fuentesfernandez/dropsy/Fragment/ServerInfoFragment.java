@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,14 @@ public class ServerInfoFragment extends Fragment implements Observer{
         robotListAdapter = new RobotListAdapter(getContext(),0);
         robotListView.setAdapter(robotListAdapter);
         robotManager.addObserver(this);
+        Button refreshButton = (Button) getView().findViewById(R.id.refresh);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                robotManager.connect();
+            }
+        });
+
     }
 
     @Override
@@ -88,13 +97,24 @@ public class ServerInfoFragment extends Fragment implements Observer{
     @Override
     public void update(Observable observable, Object data) {
         String string = (String) data;
-        if (string.equals("connection")){
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateConnectionStatus(true);
-                }
-            });
+        if (getActivity() != null) {
+
+            if (string.equals("connection")) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateConnectionStatus(true);
+                    }
+                });
+            }
+            if (string.equals("disconnection")) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateConnectionStatus(false);
+                    }
+                });
+            }
         }
     }
 
@@ -108,11 +128,6 @@ public class ServerInfoFragment extends Fragment implements Observer{
             connection_status.setTextColor(Color.RED);
         }
         connected = isConnected;
-    }
-
-    private void disconnect(){
-        robotManager.disconnect();
-        updateConnectionStatus(false);
     }
 
 
@@ -141,16 +156,6 @@ public class ServerInfoFragment extends Fragment implements Observer{
             this.robots.addAll(robotManager.getRobots());
             this.context = context;
             robotManager.addObserver(this);
-        }
-
-        @Override
-        public void registerDataSetObserver(DataSetObserver observer) {
-
-        }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver observer) {
-
         }
 
         @Override
@@ -212,11 +217,11 @@ public class ServerInfoFragment extends Fragment implements Observer{
         public void update(Observable observable, Object data) {
             String string = (String) data;
             if (string.equals("robots")){
-                this.robots.clear();
-                this.robots.addAll(robotManager.getRobots());
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        robots.clear();
+                        robots.addAll(robotManager.getRobots());
                         robotListAdapter.notifyDataSetChanged();
                     }
                 });

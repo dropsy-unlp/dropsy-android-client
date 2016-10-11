@@ -32,8 +32,8 @@ public class ProjectService {
         Date date = new Date();
         StringBuilder builder = new StringBuilder();
         builder.append(date.getYear() + 1900).append("-");
-        builder.append(date.getMonth()).append("-");
-        builder.append(date.getDay());
+        builder.append(date.getMonth() + 1).append("-");
+        builder.append(date.getDate());
         return builder.toString();
     }
 }

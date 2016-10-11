@@ -7,13 +7,14 @@
 
     <TextView
         android:text="TextView"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/project_name"
         android:textSize="27sp"
         android:textStyle="normal|bold"
         android:layout_marginLeft="10dp"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:singleLine="true" />
 
     <TextView
         android:text="Bloques:"
