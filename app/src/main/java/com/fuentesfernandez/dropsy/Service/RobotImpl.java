@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RobotImpl implements Robot{
 
@@ -28,9 +29,23 @@ public class RobotImpl implements Robot{
         List<Object> args = new ArrayList<>();
         args.add(getRobotJSONObject());
         args.add(speed);
+        args.add((double)time/(double)1000);
         sendMessageToRobot(direction,args);
         Log.i("RobotManager", "Moving robot " + direction);
-        delayedStop(time);
+        waitForReply();
+        //delayedStop(time);
+    }
+
+    private void waitForReply(){
+        String result;
+        while ((result = RobotManager.getInstance().getLastReceivedMesssage()) == null){
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(result);
     }
 
     public void left(int speed, int time){

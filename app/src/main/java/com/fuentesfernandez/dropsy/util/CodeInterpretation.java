@@ -37,11 +37,13 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
     private VideoView vidView;
     private Dialog mVideoDialog;
     private ProgressDialog progDailog;
+    private double delaySeconds;
+    private long tStart;
 
 
     public CodeInterpretation(Context context){
         this.context = context;
-        this.robotManager = RobotManager.getInstance(context);
+        this.robotManager = RobotManager.getInstance();
     }
 
     @Override
@@ -113,6 +115,8 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
         vidView.setZOrderOnTop(true);
         mVideoDialog.show();
         vidView.start();
+        tStart = System.currentTimeMillis();
+
         progDailog = ProgressDialog.show(context, "Espere por favor ...", "Cargando stream...", true);
         vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             public void onPrepared(MediaPlayer mp) {
@@ -121,6 +125,9 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        long tEnd = System.currentTimeMillis();
+                        long tDelta = tEnd - tStart;
+                        delaySeconds = tDelta / 1000.0;
                         task.execute();
                     }
                 });
@@ -157,10 +164,16 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
             return null;
         }
 
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            hideStream();
-        }
+//        @Override
+//        protected void onPostExecute(Object o) {
+//            super.onPostExecute(o);
+//            try {
+//                Thread.sleep((long)delaySeconds);
+//                hideStream();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            //hideStream();
+//        }
     }
 }

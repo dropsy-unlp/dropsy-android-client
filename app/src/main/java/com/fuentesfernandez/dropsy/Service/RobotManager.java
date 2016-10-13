@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
+import com.fuentesfernandez.dropsy.util.ServerMessageCallback;
 import com.google.gson.Gson;
 import com.koushikdutta.async.callback.CompletedCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
@@ -28,6 +29,7 @@ public class RobotManager extends Observable {
     private List<RobotInfo> robots = new ArrayList<>();
     private Context context;
     private String url;
+    private String lastReceivedMesssage;
 
     private RobotManager(Context context){
         this.context = context;
@@ -55,12 +57,7 @@ public class RobotManager extends Observable {
                 Log.d("ERROR","Hubo un problema al obtener los robots.");
             }
 
-            ws.setStringCallback(new WebSocket.StringCallback() {
-                @Override
-                public void onStringAvailable(String s) {
-                    Log.d("CLIENTTAG",s);
-                }
-            });
+            ws.setStringCallback(new ServerMessageCallback());
             setChanged();
             notifyObservers("robots");
         } catch (JSONException e) {
@@ -119,10 +116,12 @@ public class RobotManager extends Observable {
         }
     }
 
-    public static RobotManager getInstance(Context context){
-        if (instance == null){
-            instance = new RobotManager(context);
-        }
+    public static RobotManager newInstance(Context context){
+        instance = new RobotManager(context);
+        return instance;
+    }
+
+    public static RobotManager getInstance(){
         return instance;
     }
 
@@ -181,6 +180,20 @@ public class RobotManager extends Observable {
         String oldUrl = url;
         loadConnectionUrl();
         return oldUrl == null || !oldUrl.equals(url);
+    }
+
+    public String getLastReceivedMesssage(){
+        String s;
+        if ((s = lastReceivedMesssage) == null) return null;
+        lastReceivedMesssage = null;
+        return s;
+    }
+
+    private class ServerMessageCallback implements WebSocket.StringCallback {
+        @Override
+        public void onStringAvailable(String s) {
+            lastReceivedMesssage = s;
+        }
     }
 
 

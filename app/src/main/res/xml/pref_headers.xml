@@ -4,12 +4,12 @@
 
     <header
         android:fragment="com.fuentesfernandez.dropsy.Activity.SettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/ic_settings_black_24dp"
+        android:icon="@drawable/ic_settings_ethernet_black_24dp"
         android:title="Comunicacion" />
 
     <header
         android:fragment="com.fuentesfernandez.dropsy.Activity.SettingsActivity$NotificationPreferenceFragment"
-        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:icon="@drawable/ic_settings_applications_black_24dp"
         android:title="General" />
 
 </preference-headers>

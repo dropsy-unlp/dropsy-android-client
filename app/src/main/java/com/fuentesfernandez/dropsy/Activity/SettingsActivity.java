@@ -95,7 +95,7 @@ public class SettingsActivity extends PreferenceActivity {
      */
     private static boolean isXLargeTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     /**
@@ -180,10 +180,9 @@ public class SettingsActivity extends PreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
+                getActivity().finish();
             }
-            return super.onOptionsItemSelected(item);
+            return false;
         }
     }
 
@@ -210,10 +209,9 @@ public class SettingsActivity extends PreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
+                getActivity().finish();
             }
-            return super.onOptionsItemSelected(item);
+            return false;
         }
     }
 }

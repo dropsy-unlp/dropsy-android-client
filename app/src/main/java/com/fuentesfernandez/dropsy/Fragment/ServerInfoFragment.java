@@ -43,7 +43,7 @@ public class ServerInfoFragment extends Fragment implements Observer{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        robotManager = RobotManager.getInstance(getContext());
+        robotManager = RobotManager.newInstance(getContext());
     }
 
     @Override
