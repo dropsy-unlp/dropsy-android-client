@@ -54,13 +54,6 @@
             android:theme="@style/SettingsTheme"
             android:parentActivityName=".Activity.MainActivity"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".Activity.StreamActivity"
-            android:screenOrientation="landscape"
-            android:parentActivityName=".Activity.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Vista del Robot"
-            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>
