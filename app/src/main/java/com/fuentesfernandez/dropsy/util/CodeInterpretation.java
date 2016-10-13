@@ -60,14 +60,41 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
 
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
             builderSingle.setTitle("Selecciona un robot: ");
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View convertView = (View) inflater.inflate(R.layout.robot_select_list, null);
-            builderSingle.setView(convertView);
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    context, R.layout.robot_simple_list_item);
-            for (RobotInfo robotInfo : robots){
-                arrayAdapter.add("Robot ID: " + robotInfo.getRobot_id() + "  -  Modelo: " + robotInfo.getRobot_model());
+            CharSequence[] array = new CharSequence[robots.size()];
+            for (int i=0; i< robots.size(); i++){
+                RobotInfo robotInfo = robots.get(i);
+                array[i] = "Robot ID: " + robotInfo.getRobot_id() + "  -  Modelo: " + robotInfo.getRobot_model();
             }
+
+            builderSingle.setSingleChoiceItems(array,-1,new DialogInterface.OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    RobotInfo robotInfo = robots.get(which);
+                    duktape = Duktape.create();
+                    RobotImpl robot = new RobotImpl(robotInfo,robotManager,context);
+                    duktape.bind("Robot", Robot.class, robot);
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    Boolean streamingActive = preferences.getBoolean("streaming_active",false);
+                    if (streamingActive) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showStream();
+                            }
+                        });
+                    } else {
+                        final AsyncTask task = new codeEvaluationTask();
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                task.execute();
+                            }
+                        });
+                    }
+                }
+            });
 
             builderSingle.setNegativeButton(
                     "Cancelar",
@@ -77,28 +104,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                             dialog.dismiss();
                         }
                     });
-
-            builderSingle.setAdapter(
-                    arrayAdapter,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            RobotInfo robotInfo = robots.get(which);
-                            duktape = Duktape.create();
-                            RobotImpl robot = new RobotImpl(robotInfo,robotManager);
-                            duktape.bind("Robot", Robot.class, robot);
-                            final AsyncTask task = new codeEvaluationTask();
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showStream();
-                                }
-                            });
-
-                        }
-                    });
-            builderSingle.show();
+            builderSingle.create().show();
 
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:text="Modelo:"
+<TextView xmlns:tools="http://schemas.android.com/tools"
+    android:text="Modelo:"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/robot_model"
@@ -10,5 +11,4 @@
     android:layout_marginTop="10dp"
     android:paddingLeft="15dp"
     android:layout_gravity="center_vertical|center_horizontal"
-    android:layout_centerVertical="false"
     android:textAppearance="@style/TextAppearance.AppCompat" />

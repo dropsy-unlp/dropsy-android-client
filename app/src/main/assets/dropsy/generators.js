@@ -22,19 +22,19 @@
 Blockly.JavaScript['movement_turn'] = function(block) {
   // Generate JavaScript for moving turning left or right.
     var value = block.getFieldValue('time');
-    return 'Robot.' + block.getFieldValue('direction') + '(0,' + value*1000 + ');\n';
+    return 'Robot.' + block.getFieldValue('direction') + '(' + value*1000 + ');\n';
 };
 
 // Extensions to Blockly's language and JavaScript generator.
 Blockly.JavaScript['movement_turn_2'] = function(block) {
   // Generate JavaScript for moving turning left or right.
     var degrees = block.getFieldValue('degrees');
-    return 'Robot.' + block.getFieldValue('direction') + '(0,' + degrees*1000 + ');\n';
+    return 'Robot.' + block.getFieldValue('direction') + '(' + degrees*1000 + ');\n';
 };
 
 Blockly.JavaScript['movement_move'] = function(block) {
   // Generate JavaScript for moving forward or backward.
   var value = block.getFieldValue('time');
   return 'Robot.' + block.getFieldValue('direction') +
-      '(0,' + value * 1000 + ');\n';
+      '(' + value * 1000 + ');\n';
 };
