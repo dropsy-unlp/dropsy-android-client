@@ -25,6 +25,8 @@ public class ProjectDAO {
         adapter.store(project);
     }
 
+    public void deleteProject(Project project) { adapter.delete(project);}
+
     public List<Project> getProjects(){
         return adapter.findAll(new Project());
     }

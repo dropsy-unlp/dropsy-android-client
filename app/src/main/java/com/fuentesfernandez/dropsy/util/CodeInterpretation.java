@@ -167,6 +167,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
         @Override
         protected Object doInBackground(Object[] params) {
             duktape.evaluate(generatedCode);
+            duktape.close();
             return null;
         }
 

@@ -24,6 +24,10 @@ public class ProjectService {
         projectDAO.saveProject(project);
     }
 
+    public void deleteProject(Project project){
+        projectDAO.deleteProject(project);
+    }
+
     public List<Project> getAllProjects(){
         return projectDAO.getProjects();
     }

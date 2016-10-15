@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:focusable="false"
     android:background="@drawable/listview"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true">
 
     <TextView
         android:text="TextView"
@@ -14,7 +18,9 @@
         android:textStyle="normal|bold"
         android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_toStartOf="@+id/delete_button"
+        android:layout_toLeftOf="@+id/delete_button" />
 
     <TextView
         android:text="Bloques:"
@@ -54,4 +60,15 @@
         android:layout_alignBaseline="@+id/robot_model"
         android:layout_alignBottom="@+id/robot_model"
         android:layout_toEndOf="@+id/robot_model" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        android:id="@+id/delete_button"
+        android:background="@android:color/holo_blue_light"
+        android:layout_alignBottom="@+id/blocks_count"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
