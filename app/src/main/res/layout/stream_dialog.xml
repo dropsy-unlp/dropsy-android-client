@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/video"
+<FrameLayout android:id="@+id/video"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <VideoView android:id="@+id/video_view"
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_width="700dp"
         android:layout_height="400dp" />
 
-</LinearLayout>
+</FrameLayout>

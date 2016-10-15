@@ -6,6 +6,8 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.fuentesfernandez.dropsy.Exception.ConnectionLostException;
+import com.fuentesfernandez.dropsy.Exception.InterruptionRequestedException;
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
 
 import org.json.JSONException;
@@ -52,6 +54,11 @@ public class RobotImpl implements Robot{
         while ((result = RobotManager.getInstance().getLastReceivedMesssage()) == null){
             try {
                 Thread.sleep(250);
+                if (!RobotManager.getInstance().isConnected()){
+                    throw new ConnectionLostException();
+                } else if (RobotManager.getInstance().isInterruptionRequested()){
+                    throw new InterruptionRequestedException();
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

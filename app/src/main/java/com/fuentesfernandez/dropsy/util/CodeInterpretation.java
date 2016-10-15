@@ -11,14 +11,14 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.fuentesfernandez.dropsy.Exception.ConnectionLostException;
+import com.fuentesfernandez.dropsy.Exception.InterruptionRequestedException;
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
 import com.fuentesfernandez.dropsy.R;
 import com.fuentesfernandez.dropsy.Service.Robot;
@@ -39,6 +39,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
     private ProgressDialog progDailog;
     private double delaySeconds;
     private long tStart;
+    private boolean isCodeRunning;
 
 
     public CodeInterpretation(Context context){
@@ -85,6 +86,19 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                             }
                         });
                     } else {
+                        ProgressDialog myDialog = new ProgressDialog(context);
+                        myDialog.setMessage("Ejecutando codigo");
+                        myDialog.setCancelable(false);
+                        myDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (isCodeRunning){
+                                    RobotManager.getInstance().requestInterruption();
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                        myDialog.show();
                         final AsyncTask task = new codeEvaluationTask();
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
@@ -122,6 +136,14 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
         mVideoDialog.show();
         vidView.start();
         tStart = System.currentTimeMillis();
+        mVideoDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (isCodeRunning){
+                    RobotManager.getInstance().requestInterruption();
+                }
+            }
+        });
 
         progDailog = ProgressDialog.show(context, "Espere por favor ...", "Cargando stream...", true);
         vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -166,8 +188,28 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
 
         @Override
         protected Object doInBackground(Object[] params) {
-            duktape.evaluate(generatedCode);
-            duktape.close();
+            try {
+                isCodeRunning = true;
+                duktape.evaluate(generatedCode);
+            } catch (ConnectionLostException e){
+                ((Activity) context).runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       Toast.makeText(context, "Se perdio la conexion con el servidor.", Toast.LENGTH_LONG).show();
+                   }
+                });
+            } catch (InterruptionRequestedException e) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "Ejecucion interrumpida.", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }finally
+            {
+                isCodeRunning = false;
+                duktape.close();
+            }
             return null;
         }
 

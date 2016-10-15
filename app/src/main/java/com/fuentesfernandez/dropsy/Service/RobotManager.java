@@ -7,7 +7,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
-import com.fuentesfernandez.dropsy.util.ServerMessageCallback;
 import com.google.gson.Gson;
 import com.koushikdutta.async.callback.CompletedCallback;
 import com.koushikdutta.async.http.AsyncHttpClient;
@@ -30,6 +29,7 @@ public class RobotManager extends Observable {
     private Context context;
     private String url;
     private String lastReceivedMesssage;
+    private boolean interruptionRequested = false;
 
     private RobotManager(Context context){
         this.context = context;
@@ -187,6 +187,16 @@ public class RobotManager extends Observable {
         if ((s = lastReceivedMesssage) == null) return null;
         lastReceivedMesssage = null;
         return s;
+    }
+
+    public boolean isInterruptionRequested(){
+        boolean aux = interruptionRequested;
+        interruptionRequested = false;
+        return aux;
+    }
+
+    public void requestInterruption(){
+        interruptionRequested = true;
     }
 
     private class ServerMessageCallback implements WebSocket.StringCallback {
