@@ -36,7 +36,6 @@ public class ProjectLoadActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.project_list);
         ProjectListAdapter adapter = new ProjectListAdapter(this,0);
         listView.setAdapter(adapter);
-        listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
