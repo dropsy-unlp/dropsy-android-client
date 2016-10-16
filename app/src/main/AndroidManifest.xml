@@ -33,10 +33,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.ConnectActivity"
-            android:label="@string/title_activity_connect"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".Activity.ProjectActivity"
             android:label="@string/title_activity_project"
             android:screenOrientation="landscape"
