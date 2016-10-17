@@ -75,10 +75,34 @@
         ]
       },
       {
-        "type": "field_number",
+        "type": "field_dropdown",
         "name": "time",
-        "value": 0,
-        "precision": 1
+        "options": [
+          [
+            "1",
+            1
+          ],
+          [
+            "2",
+            2
+          ],
+          [
+            "3",
+            3
+          ],
+          [
+            "4",
+            4
+          ],
+          [
+            "4",
+            4
+          ],
+          [
+            "5",
+            5
+          ]
+        ]
       }
     ],
     "inputsInline": false,

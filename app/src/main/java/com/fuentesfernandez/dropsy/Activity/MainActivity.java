@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.Fragment.CreditsFragment;
+import com.fuentesfernandez.dropsy.Fragment.HelpFragment;
 import com.fuentesfernandez.dropsy.Fragment.ServerInfoFragment;
 import com.fuentesfernandez.dropsy.Fragment.StreamFragment;
 import com.fuentesfernandez.dropsy.R;
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_help:
                 rfaBtn.setVisibility(View.VISIBLE);
-                fragmentManager.beginTransaction().replace(R.id.flContent, new ServerInfoFragment()).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent, new HelpFragment()).commit();
                 break;
             case R.id.nav_credits:
                 rfaBtn.setVisibility(View.VISIBLE);
