@@ -38,8 +38,10 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
     private Dialog mVideoDialog;
     private ProgressDialog progDailog;
     private double delaySeconds;
+    private ProgressDialog executingDialog;
     private long tStart;
     private boolean isCodeRunning;
+    private boolean streamingActive;
 
 
     public CodeInterpretation(Context context){
@@ -77,7 +79,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                     RobotImpl robot = new RobotImpl(robotInfo,robotManager,context);
                     duktape.bind("Robot", Robot.class, robot);
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    Boolean streamingActive = preferences.getBoolean("streaming_active",false);
+                    streamingActive = preferences.getBoolean("streaming_active",false);
                     if (streamingActive) {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
@@ -86,10 +88,10 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                             }
                         });
                     } else {
-                        ProgressDialog myDialog = new ProgressDialog(context);
-                        myDialog.setMessage("Ejecutando codigo");
-                        myDialog.setCancelable(false);
-                        myDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                        executingDialog = new ProgressDialog(context);
+                        executingDialog.setMessage("Ejecutando codigo");
+                        executingDialog.setCancelable(false);
+                        executingDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (isCodeRunning){
@@ -98,7 +100,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                                 dialog.dismiss();
                             }
                         });
-                        myDialog.show();
+                        executingDialog.show();
                         final AsyncTask task = new codeEvaluationTask();
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
@@ -213,8 +215,13 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
             return null;
         }
 
-//        @Override
-//        protected void onPostExecute(Object o) {
+        @Override
+        protected void onPostExecute(Object o) {
+            if (streamingActive){
+
+            } else {
+                executingDialog.dismiss();
+            }
 //            super.onPostExecute(o);
 //            try {
 //                Thread.sleep((long)delaySeconds);
@@ -222,7 +229,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
-//            //hideStream();
-//        }
+            //hideStream();
+        }
     }
 }

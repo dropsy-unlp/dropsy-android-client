@@ -58,7 +58,7 @@
 
   {
     "type": "movement_move",
-    "message0": "Mover hacia %1 por %2 segundos",
+    "message0": "Mover hacia %1 por %2 segundos %3",
     "args0": [
       {
         "type": "field_dropdown",
@@ -75,37 +75,16 @@
         ]
       },
       {
-        "type": "field_dropdown",
+        "type": "input_value",
         "name": "time",
-        "options": [
-          [
-            "1",
-            1
-          ],
-          [
-            "2",
-            2
-          ],
-          [
-            "3",
-            3
-          ],
-          [
-            "4",
-            4
-          ],
-          [
-            "4",
-            4
-          ],
-          [
-            "5",
-            5
-          ]
-        ]
+        "check": "Number",
+        "value": 100
+      },
+      {
+        "type": "input_dummy"
       }
     ],
-    "inputsInline": false,
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": 290,
