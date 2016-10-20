@@ -1,12 +1,83 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.fuentesfernandez.dropsy.Fragment.HelpFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <WebView
-        android:id="@+id/help_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-</FrameLayout>
+            <ImageView
+                android:id="@+id/app_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:paddingLeft="0dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/head_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/app_icon"
+                android:text="Diseñado y Programado por Matias Fuentes y Diego Fernandez"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+        <!--
+        <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/webView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+        />
+         -->
+
+        <TextView
+            android:id="@+id/credits_oss_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Para tutoriales y ejercicios visita la guia de actividades: Programando con DROPSY"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="17dp"
+            android:textAlignment="viewStart" />
+        <TextView
+            android:textStyle="normal|bold"
+            android:id="@+id/credits_oss_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="https://dropsy-unlp.github.io/dropsy-activity-guide/"
+            android:autoLink="web"
+            android:textAllCaps="false"
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingTop="14dp"-->
+        <!--android:text="123"-->
+        <!--android:textSize="17dp"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
+        <!--
+        <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Preview build for @JM77."
+           android:paddingTop="14dp"
+           android:textSize="17dp"
+           android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            -->
+
+    </LinearLayout>
+</ScrollView>

@@ -64,11 +64,11 @@
         "name": "OP",
         "options": [
           [
-            "and",
+            "Y",
             "AND"
           ],
           [
-            "or",
+            "O",
             "OR"
           ]
         ]

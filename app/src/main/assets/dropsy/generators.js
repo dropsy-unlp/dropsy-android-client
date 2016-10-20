@@ -34,7 +34,8 @@ Blockly.JavaScript['movement_turn_2'] = function(block) {
 
 Blockly.JavaScript['movement_move'] = function(block) {
   // Generate JavaScript for moving forward or backward.
-  var value = block.getFieldValue('time');
+  var time = Blockly.JavaScript.valueToCode(block,'time',Blockly.JavaScript.ORDER_ADDITION) || '0'
+//  var value = block.getFieldValue('time');
   return 'Robot.' + block.getFieldValue('direction') +
-      '(' + value * 1000 + ');\n';
+      '((' + time + ')* 1000);\n';
 };

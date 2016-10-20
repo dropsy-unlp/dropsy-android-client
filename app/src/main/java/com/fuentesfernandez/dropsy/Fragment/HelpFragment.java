@@ -32,13 +32,5 @@ public class HelpFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_help, container, false);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        webView = (WebView) view.findViewById(R.id.help_view);
-        webView.loadUrl("https://dropsy-unlp.github.io/dropsy-activity-guide/");
-        webView.setWebViewClient(new WebViewClient());
-    }
-
 
 }
