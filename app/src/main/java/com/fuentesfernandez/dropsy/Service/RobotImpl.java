@@ -28,7 +28,7 @@ public class RobotImpl implements Robot{
 
     public RobotImpl(RobotInfo info, RobotManager manager,Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        rotationSensitivity = Float.valueOf(preferences.getString("rotation_sensitivity","1"));
+        rotationSensitivity = Float.valueOf(preferences.getString("rotation_sensitivity","0.55"));
         rotationSpeed = Float.valueOf(preferences.getString("rotation_speed","1")) * defaultSpeed;
         movementSpeed = Float.valueOf(preferences.getString("speed","1")) * defaultSpeed;
         this.info = info;

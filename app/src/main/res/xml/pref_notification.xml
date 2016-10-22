@@ -5,7 +5,7 @@
         android:title="Streaming activado" />
 
     <EditTextPreference
-        android:defaultValue="2"
+        android:defaultValue="1"
         android:inputType="numberDecimal"
         android:key="rotation_sensitivity"
         android:title="Sensibilidad de giro" />
@@ -15,7 +15,7 @@
         android:key="speed"
         android:title="Velocidad de movimiento" />
     <EditTextPreference
-        android:defaultValue="1"
+        android:defaultValue="0.55"
         android:inputType="numberDecimal"
         android:key="rotation_speed"
         android:title="Velocidad de giro" />

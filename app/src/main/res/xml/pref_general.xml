@@ -20,7 +20,7 @@
 
     <EditTextPreference
         android:capitalize="none"
-        android:defaultValue="8080"
+        android:defaultValue="8000"
         android:inputType="numberDecimal"
         android:key="port"
         android:maxLines="1"
@@ -30,7 +30,7 @@
 
     <EditTextPreference
         android:capitalize="none"
-        android:defaultValue="DROPSY"
+        android:defaultValue="api"
         android:inputType="text"
         android:key="path"
         android:maxLines="1"
@@ -40,7 +40,7 @@
 
     <EditTextPreference
         android:capitalize="none"
-        android:defaultValue="https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
+        android:defaultValue="https://192.168.0.1:1234/dropsy.webm"
         android:inputType="text"
         android:key="stream_url"
         android:maxLines="1"
