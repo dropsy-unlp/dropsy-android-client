@@ -21,16 +21,12 @@ public class RobotImpl implements Robot{
 
     private RobotInfo info;
     private RobotManager manager;
-    private float rotationSensitivity;
-    private float movementSpeed;
     private float rotationSpeed;
     private static final int defaultSpeed = 50;
 
     public RobotImpl(RobotInfo info, RobotManager manager,Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        rotationSensitivity = Float.valueOf(preferences.getString("rotation_sensitivity","0.55"));
-        rotationSpeed = Float.valueOf(preferences.getString("rotation_speed","1")) * defaultSpeed;
-        movementSpeed = Float.valueOf(preferences.getString("speed","1")) * defaultSpeed;
+        rotationSpeed = (Float.valueOf(preferences.getString("rotation_speed","55"))/ 100f * defaultSpeed);
         this.info = info;
         this.manager = manager;
     }
@@ -67,19 +63,19 @@ public class RobotImpl implements Robot{
     }
 
     public void left(int time){
-        move("turnLeft",rotationSpeed,rotationSensitivity*(float)time);
+        move("turnLeft",rotationSpeed,time);
     }
 
     public void right(int time){
-        move("turnRight",rotationSpeed,rotationSensitivity*(float)time);
+        move("turnRight",rotationSpeed,time);
     }
 
     public void forward(int time){
-        move("forward",movementSpeed,time);
+        move("forward",defaultSpeed,time);
     }
 
     public void backward(int time){
-        move("backward",movementSpeed,time);
+        move("backward",defaultSpeed,time);
     }
 
     private void stop(){

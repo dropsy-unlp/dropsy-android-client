@@ -46,5 +46,6 @@ dependencies {
     compile 'com.squareup.duktape:duktape-android:0.9.5'
     compile 'com.koushikdutta.async:androidasync:2.1.9'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
     testCompile 'junit:junit:4.12'
 }
