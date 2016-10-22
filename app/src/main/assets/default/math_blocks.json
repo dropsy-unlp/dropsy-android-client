@@ -44,26 +44,5 @@
     "output": "Number",
     "colour": 230,
     "helpUrl": "https://en.wikipedia.org/wiki/Arithmetic"
-  },
-  {
-    "type": "math_random_int",
-    "message0": "entero aleatorio de %1 a %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FROM",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "TO",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": true,
-    "output": "Number",
-    "colour": 230,
-    "tooltip": "Return a random integer between the two specified limits, inclusive.",
-    "helpUrl": "https://en.wikipedia.org/wiki/Random_number_generation"
   }
 ]
