@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.fuentesfernandez.dropsy">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -35,10 +34,9 @@
         <activity
             android:name=".Activity.ProjectActivity"
             android:label="@string/title_activity_project"
-            android:screenOrientation="landscape"
             android:parentActivityName=".Activity.MainActivity"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activity.ProjectLoadActivity"
             android:label="@string/load_project"
@@ -47,9 +45,9 @@
         <activity
             android:name=".Activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/SettingsTheme"
             android:parentActivityName=".Activity.MainActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/SettingsTheme" />
     </application>
 
 </manifest>
