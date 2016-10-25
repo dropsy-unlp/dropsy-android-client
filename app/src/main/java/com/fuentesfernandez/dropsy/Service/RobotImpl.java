@@ -26,7 +26,7 @@ public class RobotImpl implements Robot{
 
     public RobotImpl(RobotInfo info, RobotManager manager,Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        rotationSpeed = (Float.valueOf(preferences.getString("rotation_speed","55"))/ 100f * defaultSpeed);
+        rotationSpeed = ((float) preferences.getInt("rotation_speed", 55) / 100f * defaultSpeed);
         this.info = info;
         this.manager = manager;
     }
@@ -41,25 +41,8 @@ public class RobotImpl implements Robot{
         args.add(time/(float)1000);
         sendMessageToRobot(direction,args);
         Log.i("RobotManager", "Moving robot " + direction);
-        waitForReply();
+        RobotManager.getInstance().waitForReply();
         //delayedStop(time);
-    }
-
-    private void waitForReply(){
-        String result;
-        while ((result = RobotManager.getInstance().getLastReceivedMesssage()) == null){
-            try {
-                Thread.sleep(250);
-                if (!RobotManager.getInstance().isConnected()){
-                    throw new ConnectionLostException();
-                } else if (RobotManager.getInstance().isInterruptionRequested()){
-                    throw new InterruptionRequestedException();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.i("ServerResponse", result);
     }
 
     public void left(int time){

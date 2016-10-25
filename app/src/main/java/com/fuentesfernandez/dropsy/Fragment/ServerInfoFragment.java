@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
 import com.fuentesfernandez.dropsy.R;
+import com.fuentesfernandez.dropsy.Service.Robot;
 import com.fuentesfernandez.dropsy.Service.RobotManager;
 
 import java.util.ArrayList;
@@ -75,7 +76,9 @@ public class ServerInfoFragment extends Fragment implements Observer{
         super.onResume();
         connected = robotManager.isConnected();
         updateConnectionStatus(connected);
-        robotManager.connect();
+        if (!connected || robotManager.connectionSettingsChanged()){
+            robotManager.connect();
+        }
     }
 
     @Override

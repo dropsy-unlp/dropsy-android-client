@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fuentesfernandez.dropsy.Exception.ConnectionLostException;
+import com.fuentesfernandez.dropsy.Exception.InterruptionRequestedException;
 import com.fuentesfernandez.dropsy.Model.RobotInfo;
 import com.google.gson.Gson;
 import com.koushikdutta.async.callback.CompletedCallback;
@@ -39,11 +41,17 @@ public class RobotManager extends Observable {
         return connected;
     }
 
-    public List<RobotInfo> getRobots() {
+    public List<RobotInfo> getRobots(){
         return robots;
     }
 
-    private void loadRobots(String response){
+    public List<RobotInfo> loadRobots(){
+        sendMessage("global", "get_robots", new ArrayList<>());
+        String result = waitForReply();
+        return loadRobots(result);
+    }
+
+    private List<RobotInfo> loadRobots(String response){
         try {
             robots.clear();
             Gson gson = new Gson();
@@ -56,63 +64,61 @@ public class RobotManager extends Observable {
             } else {
                 Log.d("ERROR","Hubo un problema al obtener los robots.");
             }
-
-            ws.setStringCallback(new ServerMessageCallback());
             setChanged();
             notifyObservers("robots");
+            return robots;
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return new ArrayList<>();
     }
 
     public void connect(){
-        if (!connected || connectionSettingsChanged()) {
-            loadConnectionUrl();
-            if (url == null) return;
-            AsyncHttpClient.WebSocketConnectCallback mWebSocketConnectCallback = new AsyncHttpClient.WebSocketConnectCallback() {
-                @Override
-                public void onCompleted(Exception ex, WebSocket webSocket) {
-                    ws = webSocket;
-                    if (ex != null) {
-                        ex.printStackTrace();
-                        setChanged();
-                        notifyObservers("disconnection");
-                        return;
-                    }
-                    connected = true;
+        loadConnectionUrl();
+        if (url == null) return;
+        AsyncHttpClient.WebSocketConnectCallback mWebSocketConnectCallback = new AsyncHttpClient.WebSocketConnectCallback() {
+            @Override
+            public void onCompleted(Exception ex, WebSocket webSocket) {
+                ws = webSocket;
+                if (ex != null) {
+                    ex.printStackTrace();
                     setChanged();
-                    notifyObservers("connection");
-                    sendMessage("global", "get_robots", new ArrayList<>());
-                    ws.setStringCallback(new WebSocket.StringCallback() {
-                        @Override
-                        public void onStringAvailable(String s) {
-                            loadRobots(s);
-                            Log.d("CLIENTTAG", s);
-                        }
-                    });
-
-                    ws.setClosedCallback(new CompletedCallback() {
-                        @Override
-                        public void onCompleted(Exception ex) {
-                            disconnect();
-                        }
-                    });
-
-                    ws.setEndCallback(new CompletedCallback() {
-                        @Override
-                        public void onCompleted(Exception ex) {
-                            disconnect();
-                        }
-                    });
+                    notifyObservers("disconnection");
+                    return;
                 }
+                connected = true;
+                setChanged();
+                notifyObservers("connection");
+                sendMessage("global", "get_robots", new ArrayList<>());
+                ws.setStringCallback(new WebSocket.StringCallback() {
+                    @Override
+                    public void onStringAvailable(String s) {
+                        loadRobots(s);
+                        ws.setStringCallback(new ServerMessageCallback());
+                    }
+                });
 
-            };
-            AsyncHttpClient mAsyncHttpClient = AsyncHttpClient.getDefaultInstance();
-            try {
-                mAsyncHttpClient.websocket(url, null, mWebSocketConnectCallback);
-            } catch (Exception e) {
-                Toast.makeText(context, "Hubo un problema al conectarse al servidor.", Toast.LENGTH_LONG).show();
+                ws.setClosedCallback(new CompletedCallback() {
+                    @Override
+                    public void onCompleted(Exception ex) {
+                        disconnect();
+                    }
+                });
+
+                ws.setEndCallback(new CompletedCallback() {
+                    @Override
+                    public void onCompleted(Exception ex) {
+                        disconnect();
+                    }
+                });
             }
+
+        };
+        AsyncHttpClient mAsyncHttpClient = AsyncHttpClient.getDefaultInstance();
+        try {
+            mAsyncHttpClient.websocket(url, null, mWebSocketConnectCallback);
+        } catch (Exception e) {
+            Toast.makeText(context, "Hubo un problema al conectarse al servidor.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -152,6 +158,50 @@ public class RobotManager extends Observable {
         }
     }
 
+    public Long reserveRobot(String robotModel, int robotId){
+        try {
+            List<Object> args = new ArrayList<>();
+            args.add(robotModel);
+            args.add(robotId);
+            args.add(300);
+            lastReceivedMesssage = null;
+            sendMessage("global","reserve",args);
+            String result = waitForReply();
+            JSONObject json;
+            json = new JSONObject(result);
+            if (json.has("value")){
+                JSONObject value = json.getJSONObject("value");
+                return value.getLong("reservation_id");
+            }
+        } catch (JSONException | ConnectionLostException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void releaseRobot(Long reservationId){
+        List<Object> args = new ArrayList<>();
+        args.add(reservationId);
+        sendMessage("global","release",args);
+    }
+
+    public String waitForReply(){
+        String result;
+        while ((result = getLastReceivedMesssage()) == null){
+            try {
+                Thread.sleep(250);
+                if (!isConnected()){
+                    throw new ConnectionLostException();
+                } else if (isInterruptionRequested()){
+                    throw new InterruptionRequestedException();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     private void loadConnectionUrl(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String ip = preferences.getString("ip","192.168.0.1");
@@ -176,7 +226,7 @@ public class RobotManager extends Observable {
         return PATTERN.matcher(ip).matches();
     }
 
-    private boolean connectionSettingsChanged(){
+    public boolean connectionSettingsChanged(){
         String oldUrl = url;
         loadConnectionUrl();
         return oldUrl == null || !oldUrl.equals(url);
