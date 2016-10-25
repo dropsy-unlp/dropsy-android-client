@@ -183,6 +183,7 @@ public class RobotManager extends Observable {
         List<Object> args = new ArrayList<>();
         args.add(reservationId);
         sendMessage("global","release",args);
+        waitForReply();
     }
 
     public String waitForReply(){
