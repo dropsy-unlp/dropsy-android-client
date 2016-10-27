@@ -59,4 +59,15 @@
         <block type="logic_compare"></block>
         <block type="logic_operation"></block>
     </category>
+    <category name="Avanzado" colour="210">
+        <block type="controls_whileUntil">
+            <value name="BOOL">
+                <shadow type="logic_boolean">
+                    <field name="BOOL">TRUE</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="get_obstacle"></block>
+        <block type="logic_negate"></block>
+    </category>
 </toolbox>

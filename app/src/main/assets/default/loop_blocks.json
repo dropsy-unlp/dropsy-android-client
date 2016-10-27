@@ -21,5 +21,38 @@
     "inputsInline": true,
     "tooltip": "Do some statements several times.",
     "helpUrl": "https://en.wikipedia.org/wiki/For_loop"
-  }
+  }, {
+  "type": "controls_whileUntil",
+  "message0": "repetir %1 %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "MODE",
+      "options": [
+        [
+          "mientras",
+          "WHILE"
+        ],
+        [
+          "hasta",
+          "UNTIL"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "BOOL",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_statement",
+      "name": "DO"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 120,
+  "tooltip": "While a value is false, then do some statements.",
+  "helpUrl": "https://github.com/google/blockly/wiki/Loops#repeat"
+}
 ]

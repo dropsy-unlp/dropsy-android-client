@@ -39,3 +39,10 @@ Blockly.JavaScript['movement_move'] = function(block) {
   return 'Robot.' + block.getFieldValue('direction') +
       '((' + time + ')* 1000);\n';
 };
+
+Blockly.JavaScript['get_obstacle'] = function(block) {
+  // Generate JavaScript for moving forward or backward.
+//  var value = block.getFieldValue('time');
+  return ['Robot.getObstacle()',Blockly.JavaScript.ORDER_ADDITION];
+};
+

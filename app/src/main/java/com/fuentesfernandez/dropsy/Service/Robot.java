@@ -10,4 +10,5 @@ public interface Robot {
 
     public void backward(int time);
 
+    public boolean getObstacle();
 }

@@ -83,5 +83,51 @@
     "colour": 210,
     "tooltip": "",
     "helpUrl": "https://github.com/google/blockly/wiki/Logic#logical-operations"
+  },
+  {
+    "type": "get_obstacle",
+    "message0": "Hay obstaculo",
+    "output": "Boolean",
+    "colour": 290,
+    "tooltip": "",
+    "helpUrl": "http://www.example.com/"
+  },{
+  "type": "logic_negate",
+  "message0": "no %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "BOOL",
+      "check": "Boolean"
+    }
+  ],
+  "output": "Boolean",
+  "colour": 210,
+  "tooltip": "Returns true if the input is false. Returns false if the input is true.",
+  "helpUrl": "https://github.com/google/blockly/wiki/Logic#not"
+},
+  {
+    "type": "logic_boolean",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BOOL",
+        "options": [
+          [
+            "verdadero",
+            "TRUE"
+          ],
+          [
+            "falso",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": 210,
+    "tooltip": "Returns either true or false.",
+    "helpUrl": "https://github.com/google/blockly/wiki/Logic#values"
   }
 ]

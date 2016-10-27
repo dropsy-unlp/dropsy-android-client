@@ -23,6 +23,7 @@ public class RobotImpl implements Robot{
     private RobotManager manager;
     private float rotationSpeed;
     private static final int defaultSpeed = 50;
+    private static final int defaultDistance = 40;
 
     public RobotImpl(RobotInfo info, RobotManager manager,Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -40,7 +41,7 @@ public class RobotImpl implements Robot{
         args.add(speed);
         args.add(time/(float)1000);
         sendMessageToRobot(direction,args);
-        Log.i("RobotManager", "Moving robot " + direction);
+        Log.i("Robot", "Moving robot " + direction);
         RobotManager.getInstance().waitForReply();
         //delayedStop(time);
     }
@@ -65,6 +66,24 @@ public class RobotImpl implements Robot{
         List<Object> args = new ArrayList<>();
         args.add(getRobotJSONObject());
         sendMessageToRobot("stop",args);
+        Log.i("Robot", "Stopping Robot");
+    }
+
+    public boolean getObstacle(){
+        try {
+            List<Object> args = new ArrayList<>();
+            args.add(getRobotJSONObject());
+            args.add(defaultDistance);
+            sendMessageToRobot("getObstacle", args);
+            Log.i("Robot", "Asking for obstacle");
+            String result = RobotManager.getInstance().waitForReply();
+            JSONObject json;
+            json = new JSONObject(result);
+            return json.has("value") && json.getBoolean("value");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void delayedStop(int time){
