@@ -52,14 +52,18 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
 
     @Override
     public void onFinishCodeGeneration(final String newCode) {
+        if (isCodeRunning) {
+            Toast.makeText(this.context, "Por favor aguarde unos segundos antes de volver a ejecutar.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         generatedCode = newCode;
         final List<RobotInfo> robots = robotManager.loadRobots();
         if(generatedCode.isEmpty()) {
-            Toast.makeText(this.context, "Hubo un problema con la generacion de codigo.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, "Hubo un problema con la generacion de codigo.", Toast.LENGTH_SHORT).show();
         } else if (!robotManager.isConnected()){
-            Toast.makeText(this.context, "Hubo un problema al conectarse al servidor.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, "Hubo un problema al conectarse al servidor.", Toast.LENGTH_SHORT).show();
         } else if (robots.size()==0) {
-            Toast.makeText(this.context, "No hay robots disponibles.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, "No hay robots disponibles.", Toast.LENGTH_SHORT).show();
         } else if (robots.size()==1){
             robotSelected(robots.get(0));
         } else {
@@ -130,7 +134,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                 });
             }
         } else {
-            Toast.makeText(this.context, "Hubo un problema al reservar el robot.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, "Hubo un problema al reservar el robot.", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -178,7 +182,7 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 progDailog.dismiss();
                 mVideoDialog.hide();
-                Toast.makeText(context, "Hubo un problema con el stream de video. Ejecutando codigo...", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Hubo un problema con el stream de video. Ejecutando codigo...", Toast.LENGTH_SHORT).show();
                 final AsyncTask task = new codeEvaluationTask(reservationID);
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
@@ -212,21 +216,21 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
                 ((Activity) context).runOnUiThread(new Runnable() {
                    @Override
                    public void run() {
-                       Toast.makeText(context, "Se perdio la conexion con el servidor.", Toast.LENGTH_LONG).show();
+                       Toast.makeText(context, "Se perdio la conexion con el servidor.", Toast.LENGTH_SHORT).show();
                    }
                 });
             } catch (InterruptionRequestedException e) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "Ejecucion interrumpida.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Ejecucion interrumpida.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }finally
             {
-                isCodeRunning = false;
                 duktape.close();
                 RobotManager.getInstance().releaseRobot(reservationID);
+                isCodeRunning = false;
             }
             return null;
         }
@@ -236,7 +240,9 @@ public class CodeInterpretation implements CodeGenerationRequest.CodeGeneratorCa
             if (streamingActive){
 
             } else {
-                executingDialog.dismiss();
+                if (executingDialog.isShowing()){
+                    executingDialog.dismiss();
+                }
             }
         }
 

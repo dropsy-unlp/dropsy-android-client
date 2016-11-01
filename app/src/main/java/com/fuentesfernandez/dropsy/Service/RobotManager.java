@@ -46,6 +46,7 @@ public class RobotManager extends Observable {
     }
 
     public List<RobotInfo> loadRobots(){
+        getLastReceivedMesssage();
         sendMessage("global", "get_robots", new ArrayList<>());
         String result = waitForReply();
         return loadRobots(result);
@@ -169,9 +170,12 @@ public class RobotManager extends Observable {
             String result = waitForReply();
             JSONObject json;
             json = new JSONObject(result);
-            if (json.has("value")){
+
+            if (json.has("value") && json.getJSONObject("value") != null){
                 JSONObject value = json.getJSONObject("value");
                 return value.getLong("reservation_id");
+            } else {
+
             }
         } catch (JSONException | ConnectionLostException e) {
             e.printStackTrace();
@@ -193,12 +197,13 @@ public class RobotManager extends Observable {
                 Thread.sleep(250);
                 if (!isConnected()){
                     throw new ConnectionLostException();
-                } else if (isInterruptionRequested()){
-                    throw new InterruptionRequestedException();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        if (isInterruptionRequested()){
+            throw new InterruptionRequestedException();
         }
         return result;
     }
